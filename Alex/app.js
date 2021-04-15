@@ -41,12 +41,12 @@ d3.csv("../Resources/archive/data_by_year.csv").then(function(yearData) {
   // Create a function to parse date and time
 
 
-//   var parseTime = d3.timeParse("%Y");
+  var parseTime = d3.timeParse("%Y");
 
   // Format the data
 
   yearData.forEach(function(data) {
-    // data.year = parseTime(data.year);
+    data.year = parseTime(data.year).getFullYear()
     data.acousticness = +data.acousticness;
     data.danceability = +data.danceability;
   });
@@ -69,7 +69,7 @@ d3.csv("../Resources/archive/data_by_year.csv").then(function(yearData) {
   // Step 6: Create Axes
   // =============================================
 //   var bottomAxis = d3.axisBottom(xTimeScale.tickFormat(d3.timeFormat("%d-%b"));)
-  var bottomAxis = d3.axisBottom(xTimeScale)
+  var bottomAxis = d3.axisBottom(xTimeScale).tickFormat(d3.format("d"))
   var leftAxis = d3.axisLeft(yLinearScale1);
   var rightAxis = d3.axisRight(yLinearScale2);
 
