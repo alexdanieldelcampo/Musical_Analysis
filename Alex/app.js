@@ -29,8 +29,128 @@ var chartGroup = svg.append("g")
 // Step 3:
 // Import data from the donuts.csv file
 // =================================
-d3.csv("../Resources/archive/data_by_year.csv").then(function(yearData) {
+
+
+
+
+var chosenLeftyAxis = "acousticness"
+
+var chosenRightyAxis = "danceability"
+
+
+  // Step 5: Create Scales
+  //= ============================================
+//   var xTimeScale = d3.scaleTime()
+
+function xScale(yearData){
+var xTimeScale = d3.scaleLinear()
+    .domain(d3.extent(yearData, d => d.year))
+    .range([0, width]);
+
+    return xTimeScale
+}
+
+
+function LeftyScale(yearData, chosenLeftyAxis){
+  var yLinearScale1 = d3.scaleLinear()
+    .domain([0, d3.max(yearData, d => d[chosenLeftyAxis])])
+    .range([height, 0]);
+
+    return yLinearScale1
+}
+
+
+
+
+
+function RightyScale(yearData, chosenRightyAxis){
+  var yLinearScale2 = d3.scaleLinear()
+    .domain([0, d3.max(yearData, d => d[chosenRightyAxis])])
+    .range([height, 0]);
+
+    return yLinearScale2
+}
+
+// function renderXAxis(newXScale, xAxis) {
+//   var bottomAxis = d3.axisBottom(newXScale);
+
+//   xAxis.transition()
+//     .duration(1000)
+//     .call(bottomAxis);
+
+//   return xAxis;
+// }
+
+function renderLeftyAxis(yLinearScale1, LeftyAxis){
+  var leftAxis = d3.axisLeft(yLinearScale1);
+
+    LeftyAxis.transition()
+      .duration(1000)
+      .call(leftAxis)
+
+      return LeftyAxis
+}
+
+function renderRightyAxis(rightAxis, RightyAxis){
+  var rightAxis = chartGroup.append("g").call(rightAxis);
+
+    RightyAxis.transition()
+      .duration(1000)
+      .call(rightAxis)
+
+      return RightyAxis
   
+}
+
+function renderline1(line1, xTimeScale, yLinearScale1, chosenLeftyAxis){
+var line1 = d3
+.line()
+.x(d => xTimeScale(d.year))
+.y(d => yLinearScale1(d[chosenLeftyAxis]));
+
+return line1
+}
+
+function renderline2(line2, xTimeScale, yLinearScale2, chosenRightyAxis){
+var line2 = d3
+.line()
+.x(d => xTimeScale(d.year))
+.y(d => yLinearScale2(d[chosenRightyAxis]));
+
+return line2
+}
+
+
+
+function updateline1Path(LeftLine, line1){
+// Append a path for line1
+LeftLine.transition()
+.duration(1000)
+.attr("d", line1)
+.classed("line green", true);
+
+return LeftLine
+}
+
+function updateline2path(RightLine, line2){
+// Append a path for line2
+RightLine.transition()
+.duration(1000)
+.attr("d", line2)
+.classed("line orange", true);
+
+return RightLine
+}
+
+
+
+
+
+
+
+
+d3.csv("../Resources/archive/data_by_year.csv").then(function(yearData, err) {
+  if (err) throw err;
   console.log(yearData)
   
   
@@ -51,29 +171,32 @@ d3.csv("../Resources/archive/data_by_year.csv").then(function(yearData) {
     data.danceability = +data.danceability;
   });
 
-  // Step 5: Create Scales
-  //= ============================================
-//   var xTimeScale = d3.scaleTime()
-  var xTimeScale = d3.scaleLinear()
-    .domain(d3.extent(yearData, d => d.year))
-    .range([0, width]);
 
-function LeftyScale(yearData, chosenLeftyAxis){
-  var yLinearScale1 = d3.scaleLinear()
-    .domain([0, d3.max(yearData, d => d[chosenLeftyAxis])])
-    .range([height, 0]);
 
-    return yLinearScale1
-}
-  var yLinearScale2 = d3.scaleLinear()
-    .domain([0, d3.max(yearData, d => d.danceability)])
-    .range([height, 0]);
+
+ var xTimeScale = xScale(yearData)
+ var yLinearScale1 =  LeftyScale(yearData, chosenLeftyAxis)
+ var yLinearScale2 = RightyScale(yearData, chosenRightyAxis)
+
+
+
+
 
   // Step 6: Create Axes
   // =============================================
 //   var bottomAxis = d3.axisBottom(xTimeScale.tickFormat(d3.timeFormat("%d-%b"));)
   var bottomAxis = d3.axisBottom(xTimeScale).tickFormat(d3.format("d"))
+ 
+//  function renderLeftyAxis(LeftyLinearScale, LeftyAxis) {
   var leftAxis = d3.axisLeft(yLinearScale1);
+  // LeftyAxis.transition()
+  //   .duration(1000)
+  //   .call(bottomAxis);
+
+  // return LeftyAxis;
+  
+ 
+  
   var rightAxis = d3.axisRight(yLinearScale2);
 
 
@@ -104,13 +227,13 @@ function LeftyScale(yearData, chosenLeftyAxis){
 
 
   // Append a path for line1
-  chartGroup.append("path")
+  var LeftLine = chartGroup.append("path")
     .data([yearData])
     .attr("d", line1)
     .classed("line green", true);
 
   // Append a path for line2
-  chartGroup.append("path")
+  var RightLine = chartGroup.append("path")
     .data([yearData])
     .attr("d", line2)
     .classed("line orange", true);
@@ -154,32 +277,37 @@ function LeftyScale(yearData, chosenLeftyAxis){
   //  .classed("active", true)
   //  .text("Danceability");
 
-  d3.selectAll("#selDataset1").on("change", updateChart);
+  d3.selectAll("#selDataset1").on("change", updateLeftAxis);
 
   // This function is called when a dropdown menu item is selected
-  function updateChart() {
+  function updateLeftAxis() {
     // Use D3 to select the dropdown menu
-    var dropdownMenu = d3.select("#selDataset");
+    var dropdownMenu = d3.select("#selDataset1");
     // Assign the value of the dropdown menu option to a variable
-    var chosenLeftyAxis = dropdownMenu.property("value");
-  
+    var value = dropdownMenu.property("value");
 
-    LeftyLinearScale = LeftyScale(yearData, chosenLeftyAxis);
+    var chosenLeftyAxis = value
+
+
+
+    // var xTimeScale = xScale(yearData)
+ var yLinearScale1 =  LeftyScale(yearData, chosenLeftyAxis)
+//  var yLinearScale2 = RightyScale(yearData, chosenRightyAxis)
+   
+
+
+
+
+    var LeftyAxis = renderLeftyAxis(yLinearScale1, LeftyAxis);
+    
+   var line1 = renderline1(line1, xTimeScale, yLinearScale1, chosenLeftyAxis)
+
+   var LeftLine = updateline1Path(LeftLine, line1)
+
+
     // Initialize x and y arrays
-    var x = [];
-    var y = [];
-  
-    if (dataset === 'dataset1') {
-      x = [1, 2, 3, 4, 5];
-      y = [1, 2, 4, 8, 16];
-    }
-  
-    else if (dataset === 'dataset2') {
-      x = [10, 20, 30, 40, 50];
-      y = [1, 10, 100, 1000, 10000];
-    }
-
-
+    
+  }
 
 
 
