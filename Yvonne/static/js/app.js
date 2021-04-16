@@ -1,52 +1,82 @@
-var svgWidth = 990;
-var svgHeight = 600;
+// BY D3.js
 
-var margin = {
-  top:20,
-  right: 90,
-  bottom: 85,
-  left: 120
-};
+// var svgWidth = 990;
+// var svgHeight = 600;
 
-var width = svgWidth - margin.left - margin.right;
-var height = svgHeight - margin.top - margin.bottom;
+// var margin = {
+//   top:20,
+//   right: 90,
+//   bottom: 85,
+//   left: 120
+// };
 
-// Create an SVG wrapper, append an SVG group that will hold our chart,
-// and shift the latter by left and top margins.
-var svg = d3
-  .select("#scatter")
-  .append("svg")
-  .attr("width", svgWidth)
-  .attr("height", svgHeight);
+// var width = svgWidth - margin.left - margin.right;
+// var height = svgHeight - margin.top - margin.bottom;
 
-// Append an SVG group
-var chartGroup = svg.append("g")
-  .attr("transform", `translate(${margin.left}, ${margin.top})`);
+// // Create an SVG wrapper, append an SVG group that will hold our chart,
+// // and shift the latter by left and top margins.
+// var svg = d3
+//   .select("#scatter")
+//   .append("svg")
+//   .attr("width", svgWidth)
+//   .attr("height", svgHeight);
+
+// // Append an SVG group
+// var chartGroup = svg.append("g")
+//   .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
 
+// var artist_data = "../Resources/Clean_Artists.csv"
+
+// var chart = RadarChart.chart();
+// var svg = d3.select('body').append('svg')
+//   .attr('width', 600)
+//   .attr('height', 800);
+
+// // draw one
+// svg.append('g').classed('focus', 1).datum(artist_data).call(chart);
+
+// // draw many radars
+// var game = svg.selectAll('g.game').artist_data(
+//   [
+//     data,
+//     data,
+//     data,
+//     data
+//   ]
+// );
+// game.enter().append('g').classed('game', 1);
+// game
+//   .attr('transform', function(d, i) { return 'translate(150,600)'; })
+//   .call(chart);
+// // d3.csv(artist_data).then(function(data){
+// //     console.log(data)
+// // })
+
+// BY PLOTLY
 var artist_data = "../Resources/Clean_Artists.csv"
 
-var chart = RadarChart.chart();
-var svg = d3.select('body').append('svg')
-  .attr('width', 600)
-  .attr('height', 800);
+d3.csv(artist_data).then(function(data){
+  console.log(data)
+  for(var i = 0; i<data.length; i++)
+  console.log(typeof data[i].acousticness)
+})
 
-// draw one
-svg.append('g').classed('focus', 1).datum(artist_data).call(chart);
+// data = [{
+//   type: 'scatterpolar',
+//   r: [39, 28, 8, 7, 28, 39],
+//   theta: ['A','B','C', 'D', 'E', 'A'],
+//   fill: 'toself'
+// }]
 
-// draw many radars
-var game = svg.selectAll('g.game').artist_data(
-  [
-    data,
-    data,
-    data,
-    data
-  ]
-);
-game.enter().append('g').classed('game', 1);
-game
-  .attr('transform', function(d, i) { return 'translate(150,600)'; })
-  .call(chart);
-// d3.csv(artist_data).then(function(data){
-//     console.log(data)
-// })
+// layout = {
+//   polar: {
+//     radialaxis: {
+//       visible: true,
+//       range: [0, 50]
+//     }
+//   },
+//   showlegend: false
+// }
+
+// Plotly.newPlot("myDiv", data, layout)
