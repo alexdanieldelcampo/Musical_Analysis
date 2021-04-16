@@ -1,11 +1,11 @@
 // Step 1: Set up our chart
 //= ================================
-var svgWidth = 960;
+var svgWidth = 800;
 var svgHeight = 500;
 
 var margin = {
   top: 20,
-  right: 40,
+  right: 50,
   bottom: 60,
   left: 50
 };
@@ -18,7 +18,7 @@ var height = svgHeight - margin.top - margin.bottom;
 // and shift the latter by left and top margins.
 // =================================
 var svg = d3
-  .select("body")
+  .select(".chart")
   .append("svg")
   .attr("width", svgWidth)
   .attr("height", svgHeight);
@@ -77,13 +77,13 @@ d3.csv("../Resources/archive/data_by_year.csv").then(function(yearData) {
   // Step 7: Append the axes to the chartGroup
   // ==============================================
   // Add bottomAxis
-  chartGroup.append("g").attr("transform", `translate(0, ${height})`).call(bottomAxis);
+  var xAxis = chartGroup.append("g").attr("transform", `translate(0, ${height})`).call(bottomAxis);
 
   // Add leftAxis to the left side of the display
-  chartGroup.append("g").call(leftAxis);
+  var LeftyAxis = chartGroup.append("g").call(leftAxis);
 
   // Add rightAxis to the right side of the display
-  chartGroup.append("g").attr("transform", `translate(${width}, 0)`).call(rightAxis);
+  var RightyAxis = chartGroup.append("g").attr("transform", `translate(${width}, 0)`).call(rightAxis);
 
 
   // Step 8: Set up two line generators and append two SVG paths
@@ -111,6 +111,46 @@ d3.csv("../Resources/archive/data_by_year.csv").then(function(yearData) {
     .data([yearData])
     .attr("d", line2)
     .classed("line orange", true);
+
+
+ // creating x-axis labels for clicking
+ var xlabelsGroup = chartGroup.append("g")
+ .attr("transform", `translate(${width / 2}, ${height + 20})`);
+
+ var YearLabel = xlabelsGroup.append("text")
+   .attr("x", 0)
+   .attr("y", 19)
+   .attr("class", "axisText")
+   .attr("value", "poverty") // value to grab for event listener
+   .classed("active", true)
+   .text("Year");
+
+  //  var LeftylabelsGroup = chartGroup.append("g")
+  //  .attr("transform", `translate(${0 - margin.left + 10}, ${height/2 -70})`);
+
+  //  var Acousticness = LeftylabelsGroup.append("text")
+  // //  .attr("transform", "rotate(-90)")
+  //  .attr("x", 0)
+  //  .attr("y", 0)
+  //  .attr("dy", "1em")
+  //  .attr("class", "axisText")
+  //  .attr("value", "healthcare") // value to grab for event listener
+  //  .classed("active", true)
+  //  .text("Acousticness");
+
+  //  var RightylabelsGroup = chartGroup.append("g")
+  //  .attr("transform", `translate(${0 + width + 45}, ${height/2 - 70} )`);
+
+  //  var Danceability = RightylabelsGroup.append("text")
+  // //  .attr("transform", "rotate(-90)")
+  //  .attr("x", 0)
+  //  .attr("y", 0)
+  //  .attr("dy", "1em")
+  //  .attr("class", "axisText")
+  //  .attr("value", "healthcare") // value to grab for event listener
+  //  .classed("active", true)
+  //  .text("Danceability");
+
 
 }).catch(function(error) {
   console.log(error);
