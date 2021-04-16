@@ -58,10 +58,13 @@ d3.csv("../Resources/archive/data_by_year.csv").then(function(yearData) {
     .domain(d3.extent(yearData, d => d.year))
     .range([0, width]);
 
+function LeftyScale(yearData, chosenLeftyAxis){
   var yLinearScale1 = d3.scaleLinear()
-    .domain([0, d3.max(yearData, d => d.acousticness)])
+    .domain([0, d3.max(yearData, d => d[chosenLeftyAxis])])
     .range([height, 0]);
 
+    return yLinearScale1
+}
   var yLinearScale2 = d3.scaleLinear()
     .domain([0, d3.max(yearData, d => d.danceability)])
     .range([height, 0]);
@@ -150,6 +153,35 @@ d3.csv("../Resources/archive/data_by_year.csv").then(function(yearData) {
   //  .attr("value", "healthcare") // value to grab for event listener
   //  .classed("active", true)
   //  .text("Danceability");
+
+  d3.selectAll("#selDataset1").on("change", updateChart);
+
+  // This function is called when a dropdown menu item is selected
+  function updateChart() {
+    // Use D3 to select the dropdown menu
+    var dropdownMenu = d3.select("#selDataset");
+    // Assign the value of the dropdown menu option to a variable
+    var chosenLeftyAxis = dropdownMenu.property("value");
+  
+
+    LeftyLinearScale = LeftyScale(yearData, chosenLeftyAxis);
+    // Initialize x and y arrays
+    var x = [];
+    var y = [];
+  
+    if (dataset === 'dataset1') {
+      x = [1, 2, 3, 4, 5];
+      y = [1, 2, 4, 8, 16];
+    }
+  
+    else if (dataset === 'dataset2') {
+      x = [10, 20, 30, 40, 50];
+      y = [1, 10, 100, 1000, 10000];
+    }
+
+
+
+
 
 
 }).catch(function(error) {
