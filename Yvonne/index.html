@@ -3,12 +3,13 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Spider</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<link rel="stylesheet" href="static/css/style.css">
 </head>
 <body>
 	<div class="container">
 		<div class="row margin-top-50">
-		  <div class="col-md-2">
+		  <div class="col-md-5">
 			<aside class="filters">
 			  <div class="panel panel-default">
 				<div class="panel-heading">Filter Search</div>
@@ -18,7 +19,7 @@
 					  <ul class="list-group" id="filters">
 						<li class="filter list-group-item">
 						  <label for="date">Enter Artist</label>
-						  <input class="form-control" id="artist-name" type="text" placeholder="1/11/2011">
+						  <input class="form-control" id="artist-name" type="text" placeholder="Justin Bieber">
 						</li>
 					  </ul>
 					</div>
@@ -27,18 +28,31 @@
 				</div>
 			  </div>
 			</aside>
-	</div>
-	<div class="panel panel-primary">
-		<div class="panel-heading">
-		  <h3 class="panel-title">Artist Info</h3>
+	
+		<div class="row">
+			<div class="col-md-6">
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+					<h3 class="panel-title">Artist Info</h3>
+					</div>
+					<div id="artist-info" class="panel-body"></div>
+				</div>
+			</div>
 		</div>
-		<div id="artist-info" class="panel-body"></div>
-	</div>
-	<div class="col-md-5">
-        <div id="radar"></div>
-    </div>
+		
+		<div class="row">
+			<div class="col-md-12">
+				<div id="radar">
+
+				</div>
+			</div>
+		</div>
+		
+	
+	
 	<script src="https://d3js.org/d3.v5.min.js"></script>
 	<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 	<script type="text/javascript" src="static/js/app.js"></script>
+	
 </body>
 </html>

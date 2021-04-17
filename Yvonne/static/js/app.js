@@ -16,7 +16,23 @@ form.on("submit",runEnter);
 
 button.on("click", runEnter);
 
-
+// var justinData = artist.filter(d => d.artists == "Justin Bieber")
+//   data = [{
+//     type: 'scatterpolar',
+//     r: [1, justinData[0].danceability, justinData[0].energy, justinData[0].instrumentalness, justinData[0].liveness, justinData[0].speechiness, justinData[0].valence, justinData[0].acousticness],
+//     theta: ['Acousticness','Danceability','Energy', 'Instrumentalness', 'Liveness', 'Speechiness', 'Valence', 'Acousticness'],
+//     fill: 'toself'
+//   }]
+  
+//   layout = {
+//     polar: {
+//       radialaxis: {
+//         visible: true,
+//         range: [0, 1]
+//       }
+//     },
+//     showlegend: false
+//   }
 
 
 var artist = d3.csv(artist_data).then(function(data){
@@ -36,43 +52,46 @@ var artist = d3.csv(artist_data).then(function(data){
   })
   artist = data
   return artist
+  
   // inputValue = "Adrian Marcel"
   // console.log(inputValue)
   // filteredData = data.filter(d => d.artists == inputValue);
   // console.log(filteredData)
   // runEnter(data)
-
+  
 })
+
 // console.log(artist)
 function runEnter() {
 
   // Prevent the page from refreshing
   d3.event.preventDefault();
-  
-  // Select the input element and get the raw HTML node
+
   inputElement = d3.select("#artist-name");
 
   // Get the value property of the input element
   inputValue = inputElement.property("value");
   filteredData = artist.filter(d => d.artists == inputValue);
-  console.log(filteredData[0].valence)
-  
-  // Print the value to the console
-  // console.log(inputValue);
-  
-  // console.log(filteredData);
-  // Clear out table
-  // tbody.html("");
-  
-  // console.log(data)
+  // console.log(filteredData[0].valence)
 
-  // filteredData.forEach((UFOSighting) => {
-  //     var row = tbody.append("tr");
-  //     Object.entries(UFOSighting).forEach(([key, value]) => {
-  //       var cell = row.append("td");
-  //       cell.text(value);
-  //     });
-  // });
+
+  var artist_info = d3.selectAll("#artist-info");
+  artist_info.html("");
+  var artDiv = artist_info.append("div")
+  artDiv.text(`Artist Name: ${filteredData[0].artists}`)
+  var artDiv = artist_info.append("div")
+  artDiv.text(`Song Count: ${filteredData[0].count}`)
+  var artDiv = artist_info.append("div")
+  artDiv.text(`Popularity: ${filteredData[0].popularity}`)
+  var artDiv = artist_info.append("div")
+  artDiv.text(`Avg Song Duration: ${filteredData[0].duration_min}`)
+  var artDiv = artist_info.append("div")
+  artDiv.text(`Avg Tempo: ${filteredData[0].tempo}`)
+  console.log(filteredData[0])
+  
+  // Select the input element and get the raw HTML node
+  
+  
   data = [{
     type: 'scatterpolar',
     r: [1, filteredData[0].danceability, filteredData[0].energy, filteredData[0].instrumentalness, filteredData[0].liveness, filteredData[0].speechiness, filteredData[0].valence, filteredData[0].acousticness],
