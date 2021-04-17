@@ -31,7 +31,7 @@ var chartGroup = svg.append("g")
 // =================================
 
 var yearData;
-
+var r;
 var chosenLeftyAxis = "acousticness"
 
 var chosenRightyAxis = "acousticness"
@@ -182,6 +182,9 @@ function ChooseColor(attribute){
 
 }
 
+function precise(x) {
+  return Number.parseFloat(x).toPrecision(3);
+}
 
 
 
@@ -205,16 +208,16 @@ d3.csv("../Resources/archive/data_by_year.csv").then(function(yrData, err) {
   var parseTime = d3.timeParse("%Y");
 
   // Format the data
-ACOU = []
-DANC = []
-DURA = []
-ENER = []
-INST = []
-LIVE = []
-LOUD = []
-SPEE = []
-TEMP = []
-VALE = []
+// ACOU = []
+// DANC = []
+// DURA = []
+// ENER = []
+// INST = []
+// LIVE = []
+// LOUD = []
+// SPEE = []
+// TEMP = []
+// VALE = []
 
 
 
@@ -232,20 +235,55 @@ VALE = []
     data.tempo = +data.tempo
     data.valence = +data.valence
 
-    ACOU.push(data.acousticness)
-    DANC.push(data.danceability)
-    DURA.push(data.duration_ms)
-    ENER.push(data.energy)
-    INST.push(data.instrumentalness)
-    LIVE.push(data.liveness)
-    LOUD.push(data.loudness)
-    SPEE.push(data.speechiness)
-    TEMP.push(data.tempo)
-    VALE.push(data.valence)
+    // ACOU.push(data.acousticness)
+    // DANC.push(data.danceability)
+    // DURA.push(data.duration_ms)
+    // ENER.push(data.energy)
+    // INST.push(data.instrumentalness)
+    // LIVE.push(data.liveness)
+    // LOUD.push(data.loudness)
+    // SPEE.push(data.speechiness)
+    // TEMP.push(data.tempo)
+    // VALE.push(data.valence)
 
   });
 
-console.log(TEMP)
+
+// console.log(yearData)
+
+
+
+
+
+
+
+  
+  var metrics = {
+    acousticness: 'metric',
+    danceability: 'metric',
+    duration_ms: 'metric',
+    energy: 'metric',
+    instrumentalness: 'metric',
+    liveness: 'metric',
+    loudness: 'metric',
+    speechiness: 'metric',
+    tempo: 'metric',
+    valence: 'metric',
+  };
+  
+  var stats = new Statistics(yearData, metrics);
+ 
+// console.log(VALE)
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -253,9 +291,9 @@ console.log(TEMP)
  var yLinearScale1 =  LeftyScale(yearData, chosenLeftyAxis)
  var yLinearScale2 = RightyScale(yearData, chosenRightyAxis)
 
+  r = stats.correlationCoefficient('acousticness', 'acousticness');
 
-
-
+console.log(r['correlationCoefficient'])
 
   // Step 6: Create Axes
   // =============================================
@@ -337,7 +375,7 @@ console.log(TEMP)
    .attr("y", 19)
    .attr("class", "axisText")
    .attr("value", "poverty") // value to grab for event listener
-   .classed("active", true)
+   
    .text("Year");
 
 
@@ -347,8 +385,8 @@ console.log(TEMP)
    .attr("y", 19)
    .attr("class", "axisText")
    .attr("value", "poverty") // value to grab for event listener
-   .classed("active", true)
-   .text("Correlation Coefficient: ");
+   
+   .text("Correlation Coefficient: " + `${precise(r["correlationCoefficient"])}`);
   //  var LeftylabelsGroup = chartGroup.append("g")
   //  .attr("transform", `translate(${0 - margin.left + 10}, ${height/2 -70})`);
 
@@ -384,10 +422,14 @@ function updateLeftData() {
     // Use D3 to select the dropdown menu
     var dropdownMenu = d3.select("#selDataset1");
     // Assign the value of the dropdown menu option to a variable
-    var chosenLeftyAxis = dropdownMenu.property("value");
+     chosenLeftyAxis = dropdownMenu.property("value");
 
   console.log(chosenLeftyAxis)
+  console.log(chosenRightyAxis)
 
+
+  r = stats.correlationCoefficient(chosenLeftyAxis, chosenRightyAxis);
+  CoefficientLabel.text("Correlation Coefficient: " + `${precise(r["correlationCoefficient"])}`);
 
 
     // var xTimeScale = xScale(yearData)
@@ -396,7 +438,7 @@ function updateLeftData() {
    
 
 
-console.log(LeftyAxis)
+
 // Why did deleting the var LeftyAxis = work?
   LeftyAxis = renderLeftyAxis(yLinearScale1, LeftyAxis, chosenLeftyAxis);
     
@@ -423,9 +465,13 @@ function updateRightData() {
     // Assign the value of the dropdown menu option to a variable
      chosenRightyAxis = dropdownMenu.property("value");
 
-  console.log(chosenRightyAxis)
 
+     console.log(chosenLeftyAxis)
+     console.log(chosenRightyAxis)
 
+  r = stats.correlationCoefficient(chosenLeftyAxis, chosenRightyAxis);
+
+  CoefficientLabel.text("Correlation Coefficient: " + `${precise(r["correlationCoefficient"])}`);
 
     // var xTimeScale = xScale(yearData)
  var yLinearScale2 =  RightyScale(yearData, chosenRightyAxis)
@@ -433,7 +479,6 @@ function updateRightData() {
    
 
 
-console.log(RightyAxis)
 // Why did deleting the var LeftyAxis = work?
   RightyAxis = renderRightyAxis(yLinearScale2, RightyAxis, chosenRightyAxis);
     
