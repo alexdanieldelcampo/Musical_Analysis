@@ -30,12 +30,13 @@ var chartGroup = svg.append("g")
 // Import data from the donuts.csv file
 // =================================
 
-
-
+var yearData;
 
 var chosenLeftyAxis = "acousticness"
 
-var chosenRightyAxis = "danceability"
+var chosenRightyAxis = "acousticness"
+
+
 
 
   // Step 5: Create Scales
@@ -53,7 +54,7 @@ var xTimeScale = d3.scaleLinear()
 
 function LeftyScale(yearData, chosenLeftyAxis){
   var yLinearScale1 = d3.scaleLinear()
-    .domain([0, d3.max(yearData, d => d[chosenLeftyAxis])])
+    .domain(d3.extent(yearData, d => d[chosenLeftyAxis]))
     .range([height, 0]);
 
     return yLinearScale1
@@ -65,7 +66,7 @@ function LeftyScale(yearData, chosenLeftyAxis){
 
 function RightyScale(yearData, chosenRightyAxis){
   var yLinearScale2 = d3.scaleLinear()
-    .domain([0, d3.max(yearData, d => d[chosenRightyAxis])])
+    .domain(d3.extent(yearData, d => d[chosenRightyAxis]))
     .range([height, 0]);
 
     return yLinearScale2
@@ -81,21 +82,23 @@ function RightyScale(yearData, chosenRightyAxis){
 //   return xAxis;
 // }
 
-function renderLeftyAxis(yLinearScale1, LeftyAxis){
+function renderLeftyAxis(yLinearScale1, LeftyAxis, chosenAxis){
   var leftAxis = d3.axisLeft(yLinearScale1);
 
-    LeftyAxis.transition()
+  LeftyAxis.transition()
       .duration(1000)
+      .attr("fill", ChooseColor(chosenAxis))
       .call(leftAxis)
 
       return LeftyAxis
 }
 
-function renderRightyAxis(rightAxis, RightyAxis){
-  var rightAxis = chartGroup.append("g").call(rightAxis);
+function renderRightyAxis(yLinearScale2, RightyAxis, chosenAxis){
+  var rightAxis = d3.axisRight(yLinearScale2);
 
     RightyAxis.transition()
       .duration(1000)
+      .attr("fill", ChooseColor(chosenAxis))
       .call(rightAxis)
 
       return RightyAxis
@@ -122,24 +125,61 @@ return line2
 
 
 
-function updateline1Path(LeftLine, line1){
+function updateline1Path(LeftLine, line1, chosenAxis){
 // Append a path for line1
 LeftLine.transition()
 .duration(1000)
+.attr("stroke", ChooseColor(chosenAxis))
 .attr("d", line1)
-.classed("line green", true);
+
 
 return LeftLine
 }
 
-function updateline2path(RightLine, line2){
+function updateline2Path(RightLine, line2, chosenAxis){
 // Append a path for line2
 RightLine.transition()
 .duration(1000)
+.attr("stroke", ChooseColor(chosenAxis))
 .attr("d", line2)
-.classed("line orange", true);
+
 
 return RightLine
+}
+
+function ChooseColor(attribute){
+  if (attribute === "acousticness") {
+    return "#4E79A7"
+  }
+  else if (attribute === "danceability"){
+    return "#F28E2C"
+  }
+  else if (attribute === "duration_ms"){
+    return "#E15759"
+  }
+  else if (attribute === "energy"){
+    return "#76B7B2"
+  }
+  else if (attribute === "instrumentalness"){
+    return "#59A14F"
+  }
+  else if (attribute === "liveness"){
+    return "#EDC949"
+  }
+  else if (attribute === "loudness"){
+    return "#AF7AA1"
+  }
+  else if (attribute === "speechiness"){
+    return "#FF9DA7"
+  }
+  else if (attribute === "tempo"){
+    return "#9C755F"
+  }
+  else if (attribute === "valence"){
+    return "#BAB0AB"
+  
+  }
+
 }
 
 
@@ -147,11 +187,12 @@ return RightLine
 
 
 
-
-
-d3.csv("../Resources/archive/data_by_year.csv").then(function(yearData, err) {
+d3.csv("../Resources/archive/data_by_year.csv").then(function(yrData, err) {
   if (err) throw err;
-  console.log(yearData)
+
+  yearData = yrData
+
+
   
   
   
@@ -169,7 +210,16 @@ d3.csv("../Resources/archive/data_by_year.csv").then(function(yearData, err) {
     data.year = parseTime(data.year).getFullYear()
     data.acousticness = +data.acousticness;
     data.danceability = +data.danceability;
+    data.duration_ms = +data.duration_ms
+    data.energy = +data.energy
+    data.instrumentalness = +data.instrumentalness
+    data.liveness = +data.liveness
+    data.loudness= +data.loudness
+    data.speechiness = +data.speechiness
+    data.tempo = +data.tempo
+    data.valence = +data.valence
   });
+
 
 
 
@@ -187,13 +237,9 @@ d3.csv("../Resources/archive/data_by_year.csv").then(function(yearData, err) {
 //   var bottomAxis = d3.axisBottom(xTimeScale.tickFormat(d3.timeFormat("%d-%b"));)
   var bottomAxis = d3.axisBottom(xTimeScale).tickFormat(d3.format("d"))
  
-//  function renderLeftyAxis(LeftyLinearScale, LeftyAxis) {
-  var leftAxis = d3.axisLeft(yLinearScale1);
-  // LeftyAxis.transition()
-  //   .duration(1000)
-  //   .call(bottomAxis);
 
-  // return LeftyAxis;
+  var leftAxis = d3.axisLeft(yLinearScale1);
+ 
   
  
   
@@ -203,13 +249,22 @@ d3.csv("../Resources/archive/data_by_year.csv").then(function(yearData, err) {
   // Step 7: Append the axes to the chartGroup
   // ==============================================
   // Add bottomAxis
-  var xAxis = chartGroup.append("g").attr("transform", `translate(0, ${height})`).call(bottomAxis);
+  var xAxis = chartGroup.append("g")
+  .attr("transform", `translate(0, ${height})`)
+  .call(bottomAxis);
 
   // Add leftAxis to the left side of the display
-  var LeftyAxis = chartGroup.append("g").call(leftAxis);
+  
+  var LeftyAxis = chartGroup.append("g")
+  .attr("fill", "#4E79A7")
+  .call(leftAxis);
+
 
   // Add rightAxis to the right side of the display
-  var RightyAxis = chartGroup.append("g").attr("transform", `translate(${width}, 0)`).call(rightAxis);
+  var RightyAxis = chartGroup.append("g")
+  .attr("fill", "#4E79A7")
+  .attr("transform", `translate(${width}, 0)`)
+  .call(rightAxis);
 
 
   // Step 8: Set up two line generators and append two SVG paths
@@ -218,25 +273,34 @@ d3.csv("../Resources/archive/data_by_year.csv").then(function(yearData, err) {
   var line1 = d3
     .line()
     .x(d => xTimeScale(d.year))
-    .y(d => yLinearScale1(d.acousticness));
+    .y(d => yLinearScale1(d[chosenLeftyAxis]));
 
   var line2 = d3
     .line()
     .x(d => xTimeScale(d.year))
-    .y(d => yLinearScale2(d.danceability));
+    .y(d => yLinearScale2(d[chosenRightyAxis]));
 
 
   // Append a path for line1
-  var LeftLine = chartGroup.append("path")
+  var LeftLine = chartGroup.append("g")
+    .append("path")
     .data([yearData])
     .attr("d", line1)
-    .classed("line green", true);
+    // .classed("line green", true)
+    .attr("stroke", ChooseColor(chosenLeftyAxis))
+        .style("stroke-width", 3)
+        .style("fill", "none")
 
   // Append a path for line2
-  var RightLine = chartGroup.append("path")
+  var RightLine = chartGroup.append("g")
+    .append("path")
     .data([yearData])
     .attr("d", line2)
-    .classed("line orange", true);
+    .attr("stroke", ChooseColor(chosenRightyAxis))
+        .style("stroke-width", 3)
+        .style("fill", "none")
+        
+    // .style("style", "red")
 
 
  // creating x-axis labels for clicking
@@ -244,7 +308,7 @@ d3.csv("../Resources/archive/data_by_year.csv").then(function(yearData, err) {
  .attr("transform", `translate(${width / 2}, ${height + 20})`);
 
  var YearLabel = xlabelsGroup.append("text")
-   .attr("x", 0)
+   .attr("x", -20)
    .attr("y", 19)
    .attr("class", "axisText")
    .attr("value", "poverty") // value to grab for event listener
@@ -276,17 +340,19 @@ d3.csv("../Resources/archive/data_by_year.csv").then(function(yearData, err) {
   //  .attr("value", "healthcare") // value to grab for event listener
   //  .classed("active", true)
   //  .text("Danceability");
+  // xlabelsGroup.selectAll("text")
+  //   .on("click", function() {
 
-  d3.selectAll("#selDataset1").on("change", updateLeftAxis);
+  d3.selectAll("#selDataset1").on("change", updateLeftData)
 
   // This function is called when a dropdown menu item is selected
-  function updateLeftAxis() {
+function updateLeftData() {
     // Use D3 to select the dropdown menu
     var dropdownMenu = d3.select("#selDataset1");
     // Assign the value of the dropdown menu option to a variable
-    var value = dropdownMenu.property("value");
+    var chosenLeftyAxis = dropdownMenu.property("value");
 
-    var chosenLeftyAxis = value
+  console.log(chosenLeftyAxis)
 
 
 
@@ -296,18 +362,66 @@ d3.csv("../Resources/archive/data_by_year.csv").then(function(yearData, err) {
    
 
 
-
-
-    var LeftyAxis = renderLeftyAxis(yLinearScale1, LeftyAxis);
+console.log(LeftyAxis)
+// Why did deleting the var LeftyAxis = work?
+  LeftyAxis = renderLeftyAxis(yLinearScale1, LeftyAxis, chosenLeftyAxis);
     
-   var line1 = renderline1(line1, xTimeScale, yLinearScale1, chosenLeftyAxis)
+  line1 = renderline1(line1, xTimeScale, yLinearScale1, chosenLeftyAxis)
 
-   var LeftLine = updateline1Path(LeftLine, line1)
+  updateline1Path(LeftLine, line1, chosenLeftyAxis)
+  
+  // var LeftLine = LeftLine
+  //  .datum(yearData)
+  //  .transition()
+  //  .duration(1000)
+  //  .attr("d", line1)
+  //  .attr("stroke", "line green")
+
+// })
+}
+
+d3.selectAll("#selDataset2").on("change", updateRightData)
+
+  // This function is called when a dropdown menu item is selected
+function updateRightData() {
+    // Use D3 to select the dropdown menu
+    var dropdownMenu = d3.select("#selDataset2");
+    // Assign the value of the dropdown menu option to a variable
+     chosenRightyAxis = dropdownMenu.property("value");
+
+  console.log(chosenRightyAxis)
 
 
-    // Initialize x and y arrays
+
+    // var xTimeScale = xScale(yearData)
+ var yLinearScale2 =  RightyScale(yearData, chosenRightyAxis)
+//  var yLinearScale2 = RightyScale(yearData, chosenRightyAxis)
+   
+
+
+console.log(RightyAxis)
+// Why did deleting the var LeftyAxis = work?
+  RightyAxis = renderRightyAxis(yLinearScale2, RightyAxis, chosenRightyAxis);
     
-  }
+  var line2 = renderline2(line2, xTimeScale, yLinearScale2, chosenRightyAxis)
+
+  updateline2Path(RightLine, line2, chosenRightyAxis)
+  
+  // var LeftLine = LeftLine
+  //  .datum(yearData)
+  //  .transition()
+  //  .duration(1000)
+  //  .attr("d", line1)
+  //  .attr("stroke", "line green")
+
+// })
+}
+
+
+
+
+
+
 
 
 
@@ -315,3 +429,5 @@ d3.csv("../Resources/archive/data_by_year.csv").then(function(yearData, err) {
 }).catch(function(error) {
   console.log(error);
 });
+
+
