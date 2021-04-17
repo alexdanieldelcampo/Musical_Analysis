@@ -134,8 +134,8 @@ function runEnter1() {
   if (inputValue2 == undefined){
     data = [{
       type: 'scatterpolar',
-      r: [1, filteredData1[0].danceability, filteredData1[0].energy, filteredData1[0].instrumentalness, filteredData1[0].liveness, filteredData1[0].speechiness, filteredData1[0].valence, filteredData1[0].acousticness],
-      theta: ['Acousticness','Danceability','Energy', 'Instrumentalness', 'Liveness', 'Speechiness', 'Valence', 'Acousticness'],
+      r: [1, filteredData1[0].danceability, filteredData1[0].energy, filteredData1[0].instrumentalness, filteredData1[0].liveness, filteredData1[0].speechiness, filteredData1[0].valence, filteredData1[0].acousticness, filteredData1[0].loudness_scale],
+      theta: ['Acousticness','Danceability','Energy', 'Instrumentalness', 'Liveness', 'Speechiness', 'Valence', 'Acousticness', 'Loudness'],
       fill: 'toself',
       fillOpacity: 0.02,
       line: {
@@ -163,8 +163,8 @@ function runEnter1() {
   } else {
   var trace1 = {
     type: 'scatterpolar',
-    r: [1, filteredData1[0].danceability, filteredData1[0].energy, filteredData1[0].instrumentalness, filteredData1[0].liveness, filteredData1[0].speechiness, filteredData1[0].valence, filteredData1[0].acousticness],
-    theta: ['Acousticness','Danceability','Energy', 'Instrumentalness', 'Liveness', 'Speechiness', 'Valence', 'Acousticness'],
+    r: [1, filteredData1[0].danceability, filteredData1[0].energy, filteredData1[0].instrumentalness, filteredData1[0].liveness, filteredData1[0].speechiness, filteredData1[0].valence, filteredData1[0].acousticness, filteredData1[0].loudness_scale],
+    theta: ['Acousticness','Danceability','Energy', 'Instrumentalness', 'Liveness', 'Speechiness', 'Valence', 'Acousticness', 'Loudness'],
     fill: 'toself',
     fillOpacity: 0.02,
     name: filteredData1[0].artists,
@@ -174,8 +174,8 @@ function runEnter1() {
   }
   var trace2 = {
     type: 'scatterpolar',
-    r: [1, filteredData2[0].danceability, filteredData2[0].energy, filteredData2[0].instrumentalness, filteredData2[0].liveness, filteredData2[0].speechiness, filteredData2[0].valence, filteredData2[0].acousticness],
-    theta: ['Acousticness','Danceability','Energy', 'Instrumentalness', 'Liveness', 'Speechiness', 'Valence', 'Acousticness'],
+    r: [1, filteredData2[0].danceability, filteredData2[0].energy, filteredData2[0].instrumentalness, filteredData2[0].liveness, filteredData2[0].speechiness, filteredData2[0].valence, filteredData2[0].acousticness, filteredData2[0].loudness_scale],
+    theta: ['Acousticness','Danceability','Energy', 'Instrumentalness', 'Liveness', 'Speechiness', 'Valence', 'Acousticness', 'Loudness'],
     fill: 'toself',
     fillOpacity: 0.02,
     name: filteredData2[0].artists,
@@ -247,8 +247,8 @@ console.log(filteredData2)
   if (inputValue1 == undefined){
     data = [{
       type: 'scatterpolar',
-      r: [1, filteredData2[0].danceability, filteredData2[0].energy, filteredData2[0].instrumentalness, filteredData2[0].liveness, filteredData2[0].speechiness, filteredData2[0].valence, filteredData2[0].acousticness],
-      theta: ['Acousticness','Danceability','Energy', 'Instrumentalness', 'Liveness', 'Speechiness', 'Valence', 'Acousticness'],
+      r: [1, filteredData2[0].danceability, filteredData2[0].energy, filteredData2[0].instrumentalness, filteredData2[0].liveness, filteredData2[0].speechiness, filteredData2[0].valence, filteredData2[0].acousticness, filteredData2[0].loudness_scale],
+      theta: ['Acousticness','Danceability','Energy', 'Instrumentalness', 'Liveness', 'Speechiness', 'Valence', 'Acousticness', 'Loudness'],
       fill: 'toself',
       fillOpacity: 0.02, 
       line: {
@@ -276,8 +276,8 @@ console.log(filteredData2)
   } else {
   var trace1 = {
     type: 'scatterpolar',
-    r: [1, filteredData1[0].danceability, filteredData1[0].energy, filteredData1[0].instrumentalness, filteredData1[0].liveness, filteredData1[0].speechiness, filteredData1[0].valence, filteredData1[0].acousticness],
-    theta: ['Acousticness','Danceability','Energy', 'Instrumentalness', 'Liveness', 'Speechiness', 'Valence', 'Acousticness'],
+    r: [1, filteredData1[0].danceability, filteredData1[0].energy, filteredData1[0].instrumentalness, filteredData1[0].liveness, filteredData1[0].speechiness, filteredData1[0].valence, filteredData1[0].acousticness, filteredData1[0].loudness_scale],
+    theta: ['Acousticness','Danceability','Energy', 'Instrumentalness', 'Liveness', 'Speechiness', 'Valence', 'Acousticness', 'Loudness'],
     fill: 'toself',
     fillOpacity: 0.02,
     name: filteredData1[0].artists,
@@ -287,8 +287,8 @@ console.log(filteredData2)
   }
   var trace2 = {
     type: 'scatterpolar',
-    r: [1, filteredData2[0].danceability, filteredData2[0].energy, filteredData2[0].instrumentalness, filteredData2[0].liveness, filteredData2[0].speechiness, filteredData2[0].valence, filteredData2[0].acousticness],
-    theta: ['Acousticness','Danceability','Energy', 'Instrumentalness', 'Liveness', 'Speechiness', 'Valence', 'Acousticness'],
+    r: [1, filteredData2[0].danceability, filteredData2[0].energy, filteredData2[0].instrumentalness, filteredData2[0].liveness, filteredData2[0].speechiness, filteredData2[0].valence, filteredData2[0].acousticness, filteredData2[0].loudness_scale],
+    theta: ['Acousticness','Danceability','Energy', 'Instrumentalness', 'Liveness', 'Speechiness', 'Valence', 'Acousticness', 'Loudness'],
     fill: 'toself',
     fillOpacity: 0.02,
     name: filteredData2[0].artists,
