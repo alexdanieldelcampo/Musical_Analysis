@@ -2,19 +2,33 @@
 // BY PLOTLY
 var artist_data = "../Resources/Clean_Artists.csv"
 
-var form = d3.select("form");
+var form1 = d3.select("#form1");
+var form2 = d3.select("#form2")
 
-var button = d3.select("#filter-btn");
+var button1 = d3.select("#filter1-btn");
+var button2 = d3.select("#filter2-btn");
 
-var filteredData
 
-var inputValue
+var filteredData1
+var inputValue1
+var inputElement1
 
-var inputElement
+var filteredData2
+var inputValue2
+var inputElement2
 
-form.on("submit",runEnter);
 
-button.on("click", runEnter);
+form1.on("submit",runEnter1);
+
+button1.on("click", runEnter1);
+
+form2.on("submit",runEnter2);
+
+button2.on("click", runEnter2);
+
+// form.on("submit",runEnter1);
+
+// button.on("click", runEnter1);
 
 // var justinData = artist.filter(d => d.artists == "Justin Bieber")
 //   data = [{
@@ -62,54 +76,248 @@ var artist = d3.csv(artist_data).then(function(data){
 })
 
 // console.log(artist)
-function runEnter() {
+function runEnter1() {
 
   // Prevent the page from refreshing
   d3.event.preventDefault();
 
-  inputElement = d3.select("#artist-name");
+  inputElement1 = d3.select("#artist1-name");
 
   // Get the value property of the input element
-  inputValue = inputElement.property("value");
-  filteredData = artist.filter(d => d.artists == inputValue);
-  // console.log(filteredData[0].valence)
+  inputValue1 = inputElement1.property("value");
+  filteredData1 = artist.filter(d => d.artists == inputValue1);
+  console.log(filteredData1[0].valence)
+
+  // inputElement2 = d3.select("#artist2-name");
+
+  // // Get the value property of the input element
+  // inputValue2 = inputElement2.property("value");
+  // filteredData2 = artist.filter(d => d.artists == inputValue2);
 
 
-  var artist_info = d3.selectAll("#artist-info");
+
+  var artist_info = d3.selectAll("#artist1-info");
   artist_info.html("");
   var artDiv = artist_info.append("div")
-  artDiv.text(`Artist Name: ${filteredData[0].artists}`)
+  artDiv.text(`Artist Name: ${filteredData1[0].artists}`)
   var artDiv = artist_info.append("div")
-  artDiv.text(`Song Count: ${filteredData[0].count}`)
+  artDiv.text(`Song Count: ${filteredData1[0].count}`)
   var artDiv = artist_info.append("div")
-  artDiv.text(`Popularity: ${filteredData[0].popularity}`)
+  artDiv.text(`Popularity: ${filteredData1[0].popularity}`)
   var artDiv = artist_info.append("div")
-  artDiv.text(`Avg Song Duration: ${filteredData[0].duration_min}`)
+  artDiv.text(`Avg Song Duration: ${filteredData1[0].duration_min}`)
   var artDiv = artist_info.append("div")
-  artDiv.text(`Avg Tempo: ${filteredData[0].tempo}`)
-  console.log(filteredData[0])
-  
+  artDiv.text(`Avg Tempo: ${filteredData1[0].tempo}`)
+  console.log(filteredData1[0])
+
   // Select the input element and get the raw HTML node
   
+
+  // data = [{
+  //   type: 'scatterpolar',
+  //   r: [1, filteredData1[0].danceability, filteredData1[0].energy, filteredData1[0].instrumentalness, filteredData1[0].liveness, filteredData1[0].speechiness, filteredData1[0].valence, filteredData1[0].acousticness],
+  //   theta: ['Acousticness','Danceability','Energy', 'Instrumentalness', 'Liveness', 'Speechiness', 'Valence', 'Acousticness'],
+  //   fill: 'toself'
+  // }]
   
-  data = [{
+  // layout = {
+  //   polar: {
+  //     radialaxis: {
+  //       visible: true,
+  //       range: [0, 1]
+  //     }
+  //   },
+  //   showlegend: false
+  // }
+  
+  // Plotly.newPlot("radar", data, layout)
+  if (inputValue2 == undefined){
+    data = [{
+      type: 'scatterpolar',
+      r: [1, filteredData1[0].danceability, filteredData1[0].energy, filteredData1[0].instrumentalness, filteredData1[0].liveness, filteredData1[0].speechiness, filteredData1[0].valence, filteredData1[0].acousticness],
+      theta: ['Acousticness','Danceability','Energy', 'Instrumentalness', 'Liveness', 'Speechiness', 'Valence', 'Acousticness'],
+      fill: 'toself',
+      fillOpacity: 0.02,
+      line: {
+        color: 'red'
+      }
+    }]
+    
+    layout = {
+      title: {
+        text: filteredData1[0].artists,
+        font: {
+          family: 'Arial',
+          size: 24
+        }},
+      polar: {
+        radialaxis: {
+          visible: true,
+          range: [0, 1]
+        }
+      },
+      showlegend: false
+    }
+    
+    Plotly.newPlot("radar", data, layout)
+  } else {
+  var trace1 = {
     type: 'scatterpolar',
-    r: [1, filteredData[0].danceability, filteredData[0].energy, filteredData[0].instrumentalness, filteredData[0].liveness, filteredData[0].speechiness, filteredData[0].valence, filteredData[0].acousticness],
+    r: [1, filteredData1[0].danceability, filteredData1[0].energy, filteredData1[0].instrumentalness, filteredData1[0].liveness, filteredData1[0].speechiness, filteredData1[0].valence, filteredData1[0].acousticness],
     theta: ['Acousticness','Danceability','Energy', 'Instrumentalness', 'Liveness', 'Speechiness', 'Valence', 'Acousticness'],
-    fill: 'toself'
-  }]
+    fill: 'toself',
+    fillOpacity: 0.02,
+    name: filteredData1[0].artists,
+    line: {
+      color: 'red'
+    }
+  }
+  var trace2 = {
+    type: 'scatterpolar',
+    r: [1, filteredData2[0].danceability, filteredData2[0].energy, filteredData2[0].instrumentalness, filteredData2[0].liveness, filteredData2[0].speechiness, filteredData2[0].valence, filteredData2[0].acousticness],
+    theta: ['Acousticness','Danceability','Energy', 'Instrumentalness', 'Liveness', 'Speechiness', 'Valence', 'Acousticness'],
+    fill: 'toself',
+    fillOpacity: 0.02,
+    name: filteredData2[0].artists,
+    line: {
+      color: 'blue'
+    }
+  }
+  
+  data = [trace1, trace2]
   
   layout = {
+    title: {
+      text: `${filteredData1[0].artists} vs ${filteredData2[0].artists} Comparison`,
+      font: {
+        family: 'Arial',
+        size: 24
+      }},
     polar: {
       radialaxis: {
         visible: true,
         range: [0, 1]
       }
     },
-    showlegend: false
+    showlegend: true
   }
   
   Plotly.newPlot("radar", data, layout)
+}
+
+}
+
+function runEnter2() {
+
+  // Prevent the page from refreshing
+  d3.event.preventDefault();
+
+  inputElement2 = d3.select("#artist2-name");
+
+  // Get the value property of the input element
+  inputValue2 = inputElement2.property("value");
+  filteredData2 = artist.filter(d => d.artists == inputValue2);
+  // console.log(filteredData2[0].valence)
+
+  // inputElement2 = d3.select("#artist2-name");
+
+  // // Get the value property of the input element
+  // inputValue2 = inputElement2.property("value");
+  // filteredData2 = artist.filter(d => d.artists == inputValue2);
+
+
+console.log(filteredData2)
+
+  var artist_info = d3.selectAll("#artist2-info");
+  artist_info.html("");
+  var artDiv = artist_info.append("div")
+  artDiv.text(`Artist Name: ${filteredData2[0].artists}`)
+  var artDiv = artist_info.append("div")
+  artDiv.text(`Song Count: ${filteredData2[0].count}`)
+  var artDiv = artist_info.append("div")
+  artDiv.text(`Popularity: ${filteredData2[0].popularity}`)
+  var artDiv = artist_info.append("div")
+  artDiv.text(`Avg Song Duration: ${filteredData2[0].duration_min}`)
+  var artDiv = artist_info.append("div")
+  artDiv.text(`Avg Tempo: ${filteredData2[0].tempo}`)
+  console.log(filteredData2[0])
+  
+  // Select the input element and get the raw HTML node
+  
+  if (inputValue1 == undefined){
+    data = [{
+      type: 'scatterpolar',
+      r: [1, filteredData2[0].danceability, filteredData2[0].energy, filteredData2[0].instrumentalness, filteredData2[0].liveness, filteredData2[0].speechiness, filteredData2[0].valence, filteredData2[0].acousticness],
+      theta: ['Acousticness','Danceability','Energy', 'Instrumentalness', 'Liveness', 'Speechiness', 'Valence', 'Acousticness'],
+      fill: 'toself',
+      fillOpacity: 0.02, 
+      line: {
+        color: 'blue'
+      }
+    }]
+    
+    layout = {
+      title: {
+        text: filteredData2[0].artists,
+        font: {
+          family: 'Arial',
+          size: 24
+        }},
+      polar: {
+        radialaxis: {
+          visible: true,
+          range: [0, 1]
+        }
+      },
+      showlegend: false
+    }
+    
+    Plotly.newPlot("radar", data, layout)
+  } else {
+  var trace1 = {
+    type: 'scatterpolar',
+    r: [1, filteredData1[0].danceability, filteredData1[0].energy, filteredData1[0].instrumentalness, filteredData1[0].liveness, filteredData1[0].speechiness, filteredData1[0].valence, filteredData1[0].acousticness],
+    theta: ['Acousticness','Danceability','Energy', 'Instrumentalness', 'Liveness', 'Speechiness', 'Valence', 'Acousticness'],
+    fill: 'toself',
+    fillOpacity: 0.02,
+    name: filteredData1[0].artists,
+    line: {
+      color: 'red'
+    }
+  }
+  var trace2 = {
+    type: 'scatterpolar',
+    r: [1, filteredData2[0].danceability, filteredData2[0].energy, filteredData2[0].instrumentalness, filteredData2[0].liveness, filteredData2[0].speechiness, filteredData2[0].valence, filteredData2[0].acousticness],
+    theta: ['Acousticness','Danceability','Energy', 'Instrumentalness', 'Liveness', 'Speechiness', 'Valence', 'Acousticness'],
+    fill: 'toself',
+    fillOpacity: 0.02,
+    name: filteredData2[0].artists,
+    line: {
+      color: 'blue'
+    }
+  }
+  
+  data = [trace1, trace2]
+  
+  layout = {
+      title: {
+        text: `${filteredData1[0].artists} vs ${filteredData2[0].artists} Comparison`,
+        font: {
+          family: 'Arial',
+          size: 24
+        }},
+    polar: {
+      radialaxis: {
+        visible: true,
+        range: [0, 1]
+      }
+    },
+    showlegend: true
+  }
+  
+  Plotly.newPlot("radar", data, layout)
+}
+  
 
 }
 
