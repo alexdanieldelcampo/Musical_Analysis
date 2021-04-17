@@ -372,7 +372,7 @@ console.log(r['correlationCoefficient'])
 
  var YearLabel = xlabelsGroup.append("text")
    .attr("x", -20)
-   .attr("y", 19)
+   .attr("y", 25)
    .attr("class", "axisText")
    .attr("value", "poverty") // value to grab for event listener
    
@@ -381,12 +381,12 @@ console.log(r['correlationCoefficient'])
 
 
    var CoefficientLabel = xlabelsGroup.append("text")
-   .attr("x", 70)
-   .attr("y", 19)
-   .attr("class", "axisText")
+   .attr("x", 120)
+   .attr("y", 25)
+   .attr("class", "cc")
    .attr("value", "poverty") // value to grab for event listener
    
-   .text("Correlation Coefficient: " + `${precise(r["correlationCoefficient"])}`);
+   .text("Correlation Coefficient: "+ `${precise(r["correlationCoefficient"])}`);
   //  var LeftylabelsGroup = chartGroup.append("g")
   //  .attr("transform", `translate(${0 - margin.left + 10}, ${height/2 -70})`);
 

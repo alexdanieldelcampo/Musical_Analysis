@@ -3,10 +3,13 @@
   stroke-width: 2px;
 }
 
-.orange {
-  stroke: blue;
-}
 
-.green {
-  stroke: green;
+/* .cc {
+font-weight: bold;
+
+} */
+
+.axisText {
+font-size: 20px;
+
 }
