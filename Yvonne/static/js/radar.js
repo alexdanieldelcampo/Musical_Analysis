@@ -67,12 +67,6 @@ var artist = d3.csv(artist_data).then(function(data){
   artist = data
   return artist
   
-  // inputValue = "Adrian Marcel"
-  // console.log(inputValue)
-  // filteredData = data.filter(d => d.artists == inputValue);
-  // console.log(filteredData)
-  // runEnter(data)
-  
 })
 
 // console.log(artist)
@@ -88,18 +82,15 @@ function runEnter1() {
   filteredData1 = artist.filter(d => d.artists == inputValue1);
   console.log(filteredData1[0].valence)
 
-  // inputElement2 = d3.select("#artist2-name");
-
-  // // Get the value property of the input element
-  // inputValue2 = inputElement2.property("value");
-  // filteredData2 = artist.filter(d => d.artists == inputValue2);
-
-
+  var name1 = d3.selectAll("#name1")
+  name1.html("");
+  var nameDiv = name1.append("div")
+  nameDiv.text(filteredData1[0].artists)
 
   var artist_info = d3.selectAll("#artist1-info");
   artist_info.html("");
-  var artDiv = artist_info.append("div")
-  artDiv.text(`Artist Name: ${filteredData1[0].artists}`)
+  // var artDiv = artist_info.append("div")
+  // artDiv.text(`Artist Name: ${filteredData1[0].artists}`)
   var artDiv = artist_info.append("div")
   artDiv.text(`Song Count: ${filteredData1[0].count}`)
   var artDiv = artist_info.append("div")
@@ -110,27 +101,6 @@ function runEnter1() {
   artDiv.text(`Avg Tempo: ${filteredData1[0].tempo}`)
   console.log(filteredData1[0])
 
-  // Select the input element and get the raw HTML node
-  
-
-  // data = [{
-  //   type: 'scatterpolar',
-  //   r: [1, filteredData1[0].danceability, filteredData1[0].energy, filteredData1[0].instrumentalness, filteredData1[0].liveness, filteredData1[0].speechiness, filteredData1[0].valence, filteredData1[0].acousticness],
-  //   theta: ['Acousticness','Danceability','Energy', 'Instrumentalness', 'Liveness', 'Speechiness', 'Valence', 'Acousticness'],
-  //   fill: 'toself'
-  // }]
-  
-  // layout = {
-  //   polar: {
-  //     radialaxis: {
-  //       visible: true,
-  //       range: [0, 1]
-  //     }
-  //   },
-  //   showlegend: false
-  // }
-  
-  // Plotly.newPlot("radar", data, layout)
   if (inputValue2 == undefined){
     data = [{
       type: 'scatterpolar',
@@ -217,21 +187,18 @@ function runEnter2() {
   // Get the value property of the input element
   inputValue2 = inputElement2.property("value");
   filteredData2 = artist.filter(d => d.artists == inputValue2);
-  // console.log(filteredData2[0].valence)
 
-  // inputElement2 = d3.select("#artist2-name");
+  console.log(filteredData2)
 
-  // // Get the value property of the input element
-  // inputValue2 = inputElement2.property("value");
-  // filteredData2 = artist.filter(d => d.artists == inputValue2);
-
-
-console.log(filteredData2)
+  var name2 = d3.selectAll("#name2")
+  name2.html("");
+  var nameDiv = name2.append("div")
+  nameDiv.text(filteredData2[0].artists)
 
   var artist_info = d3.selectAll("#artist2-info");
   artist_info.html("");
-  var artDiv = artist_info.append("div")
-  artDiv.text(`Artist Name: ${filteredData2[0].artists}`)
+  // var artDiv = artist_info.append("div")
+  // artDiv.text(`Artist Name: ${filteredData2[0].artists}`)
   var artDiv = artist_info.append("div")
   artDiv.text(`Song Count: ${filteredData2[0].count}`)
   var artDiv = artist_info.append("div")
@@ -277,7 +244,7 @@ console.log(filteredData2)
   var trace1 = {
     type: 'scatterpolar',
     r: [1, filteredData1[0].danceability, filteredData1[0].energy, filteredData1[0].instrumentalness, filteredData1[0].liveness, filteredData1[0].speechiness, filteredData1[0].valence, filteredData1[0].loudness_scale, filteredData1[0].acousticness],
-    theta: ['Acousticness','Danceability','Energy', 'Instrumentalness', 'Liveness', 'Speechiness', 'Valence', 'Acousticness', 'Loudness'],
+    theta: ['Acousticness','Danceability','Energy', 'Instrumentalness', 'Liveness', 'Speechiness', 'Valence', 'Loudness', 'Acousticness'],
     fill: 'toself',
     fillOpacity: 0.02,
     name: filteredData1[0].artists,
@@ -318,57 +285,4 @@ console.log(filteredData2)
   Plotly.newPlot("radar", data, layout)
 }
   
-
 }
-
-
-
-// function update(value){
-//   sample_index = sample_data.samples[value]
-
-//   sample_values = sample_index.sample_values
-//   otu_ids = sample_index.otu_ids
-//   otu_ids_bar = sample_index.otu_ids.map(d => "OTU " + d)
-//   otu_labels = sample_index.otu_labels
-//   // otu_ids = otu_ids.toString();
-
-//   sample_values.sort(function(a, b){
-//     return parseFloat (b) - parseFloat(a)
-// });
-
-// data = sample_values.slice(0, 10);
-// // Reverse the array due to Plotly's defaults
-// data  = data.reverse();
-
-// metavalue = sample_data.metadata[value]
-
-// var meta = d3.selectAll("#sample-metadata");
-
-// meta.html("");
-
-// Object.entries(metavalue).forEach(([key, value])=>{
-  
-//   var demInfo = meta.append("div");
-//   // meta.html(`<div class="panel-body">${key}: ${value}</div>`)
-//   demInfo.text(`${key}: ${value}`)
-// })
-// // updateBar(value)
-// }
-// data = [{
-//   type: 'scatterpolar',
-//   r: [39, 28, 8, 7, 28, 39],
-//   theta: ['A','B','C', 'D', 'E', 'A'],
-//   fill: 'toself'
-// }]
-
-// layout = {
-//   polar: {
-//     radialaxis: {
-//       visible: true,
-//       range: [0, 50]
-//     }
-//   },
-//   showlegend: false
-// }
-
-// Plotly.newPlot("myDiv", data, layout)
