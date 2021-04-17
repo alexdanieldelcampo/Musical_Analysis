@@ -87,7 +87,7 @@ function renderLeftyAxis(yLinearScale1, LeftyAxis, chosenAxis){
 
   LeftyAxis.transition()
       .duration(1000)
-      .attr("fill", ChooseColor(chosenAxis))
+      .style("fill", ChooseColor(chosenAxis))
       .call(leftAxis)
 
       return LeftyAxis
@@ -98,7 +98,7 @@ function renderRightyAxis(yLinearScale2, RightyAxis, chosenAxis){
 
     RightyAxis.transition()
       .duration(1000)
-      .attr("fill", ChooseColor(chosenAxis))
+      .style("fill", ChooseColor(chosenAxis))
       .call(rightAxis)
 
       return RightyAxis
@@ -205,6 +205,19 @@ d3.csv("../Resources/archive/data_by_year.csv").then(function(yrData, err) {
   var parseTime = d3.timeParse("%Y");
 
   // Format the data
+ACOU = []
+DANC = []
+DURA = []
+ENER = []
+INST = []
+LIVE = []
+LOUD = []
+SPEE = []
+TEMP = []
+VALE = []
+
+
+
 
   yearData.forEach(function(data) {
     data.year = parseTime(data.year).getFullYear()
@@ -218,9 +231,21 @@ d3.csv("../Resources/archive/data_by_year.csv").then(function(yrData, err) {
     data.speechiness = +data.speechiness
     data.tempo = +data.tempo
     data.valence = +data.valence
+
+    ACOU.push(data.acousticness)
+    DANC.push(data.danceability)
+    DURA.push(data.duration_ms)
+    ENER.push(data.energy)
+    INST.push(data.instrumentalness)
+    LIVE.push(data.liveness)
+    LOUD.push(data.loudness)
+    SPEE.push(data.speechiness)
+    TEMP.push(data.tempo)
+    VALE.push(data.valence)
+
   });
 
-
+console.log(TEMP)
 
 
 
@@ -256,14 +281,14 @@ d3.csv("../Resources/archive/data_by_year.csv").then(function(yrData, err) {
   // Add leftAxis to the left side of the display
   
   var LeftyAxis = chartGroup.append("g")
-  .attr("fill", "#4E79A7")
+  .style("fill", "#4E79A7")
   .call(leftAxis);
 
 
   // Add rightAxis to the right side of the display
   var RightyAxis = chartGroup.append("g")
-  .attr("fill", "#4E79A7")
   .attr("transform", `translate(${width}, 0)`)
+  .style("fill", "#4E79A7")
   .call(rightAxis);
 
 
@@ -315,6 +340,15 @@ d3.csv("../Resources/archive/data_by_year.csv").then(function(yrData, err) {
    .classed("active", true)
    .text("Year");
 
+
+
+   var CoefficientLabel = xlabelsGroup.append("text")
+   .attr("x", 70)
+   .attr("y", 19)
+   .attr("class", "axisText")
+   .attr("value", "poverty") // value to grab for event listener
+   .classed("active", true)
+   .text("Correlation Coefficient: ");
   //  var LeftylabelsGroup = chartGroup.append("g")
   //  .attr("transform", `translate(${0 - margin.left + 10}, ${height/2 -70})`);
 
