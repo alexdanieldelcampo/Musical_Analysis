@@ -255,6 +255,19 @@ class DataWGenresO(Base):
 # Crete metadata for all tables in Base
 Base.metadata.create_all(engine)
 
+# session = Session(bind=engine)
+
+# allByYear = session.query(DataByYear)
+# for row in allByYear:
+#   print(row.year)
+# #Close session!
+# session.close()
+
+# #Save results in a dictionary
+# # allYearDict = {}
+# # for row in allByYear:
+# #   print(row.year)
+
 # Start a session
 session = Session(bind=engine)
 
