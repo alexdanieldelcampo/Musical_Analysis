@@ -22,11 +22,12 @@ def homepage():
   return(
     f"Available Routes: <br/>"
     f"/api/v1.0/data <br/>"
-    f"/api/v1.0/data_popularity_over_85 <br/>"
+    f"/api/v1.0/data_popularity_over_80 <br/>"
     f"/api/v1.0/data_o <br/>"
     f"/api/v1.0/data_by_year <br/>"
     f"/api/v1.0/data_by_year_o <br/>"
     f"/api/v1.0/data_by_artist <br/>"
+    f"/api/v1.0/data_by_artist_clean <br/>"
     f"/api/v1.0/data_by_artist_o <br/>"
     f"/api/v1.0/data_by_genres <br/>"
     f"/api/v1.0/data_by_genres_o <br/>"
@@ -51,15 +52,15 @@ def data():
 
   return dataJSON
 
-@app.route("/api/v1.0/data_popularity_over_85")
+@app.route("/api/v1.0/data_popularity_over_80")
 def data_85():
   session = Session(bind=engine)
-  data85 = engine.execute("SELECT * from data \
-    WHERE popularity > 85")
+  data80 = engine.execute("SELECT * from data \
+    WHERE popularity >= 80")
   session.close()
-  data85JSON = json.dumps([dict(r) for r in data85])
+  data80JSON = json.dumps([dict(r) for r in data80])
 
-  return data85JSON
+  return data80JSON
 @app.route("/api/v1.0/data_o")
 def data_o():
   session = Session(bind=engine)
@@ -95,6 +96,15 @@ def data_by_artist():
   dataByArtistJSON = json.dumps([dict(r) for r in dataByArtist])
 
   return dataByArtistJSON
+
+@app.route("/api/v1.0/data_by_artist_clean")
+def data_by_artist_clean():
+  session=Session(bind=engine)  
+  dataByArtistClean = engine.execute("SELECT * from Clean_Artists")
+  session.close()
+  dataByArtistCleanJSON = json.dumps([dict(r) for r in dataByArtistClean])
+
+  return dataByArtistCleanJSON
 
 @app.route("/api/v1.0/data_by_artist_o")
 def data_by_artist_o():
