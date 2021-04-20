@@ -32,6 +32,7 @@ def homepage():
     f"/api/v1.0/data_by_genres <br/>"
     f"/api/v1.0/data_by_genres_o <br/>"
     f"/api/v1.0/data_w_genres <br/>"
+    f"/api/v1.0/top_51_genres <br/>"
     f"/api/v1.0/data_w_genres_o <br/>"
   )
 
@@ -141,6 +142,15 @@ def data_w_genres():
   dataWithGenresJSON = json.dumps([dict(r) for r in dataWithGenres])
 
   return dataWithGenresJSON
+
+@app.route("/api/v1.0/top_51_genres")
+def data_top_51_genres():
+  session = Session(bind=engine)
+  dataTop51Genres = engine.execute("SELECT * from top_51_genres")
+  session.close()
+  dataTop51GenresJSON = json.dumps([dict(r) for r in dataTop51Genres])
+
+  return dataTop51GenresJSON
 
 @app.route("/api/v1.0/data_w_genres_o")
 def data_w_genres_o():
