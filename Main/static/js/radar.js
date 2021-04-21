@@ -184,7 +184,7 @@ function init() {
         range: [0, 1]
       }
     },
-    showlegend: true
+    showlegend: true,
   }
   
   Plotly.newPlot("radar", data, layout)
