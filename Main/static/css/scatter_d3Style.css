@@ -26,10 +26,10 @@
     text-anchor: middle;
   }
   
-  .stateCircle {
+  /* .stateCircle {
     fill: #c0a6c5;
     stroke: #41095c;
-  }
+  } */
   
   .chart {
     display: block;
@@ -49,6 +49,21 @@
   }
 
   #Yselect {
-    float:right;
+    float:left;
   }
   
+  #Xselect {
+    float:right
+  }
+
+  .tooltip {
+    padding: 6px;
+    font-size: 13px;
+    line-height: 1;
+    line-height: 1.5em;
+    color: rgb(231, 195, 195);
+    text-align: center;
+    text-transform: capitalize;
+    background: rgba(0, 0, 0, 0.8);
+    border-radius: 4px;
+  }

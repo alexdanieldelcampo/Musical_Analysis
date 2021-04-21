@@ -20,7 +20,7 @@ var svg = d3
 var chartGroup = svg.append("g")
   .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
-
+var r;
 var chosenXAxis = "acousticness";
 var chosenYAxis = "acousticness";
 
@@ -65,20 +65,21 @@ function renderYAxes(newYScale, yAxis) {
     return yAxis;
 }
 
-function renderXCircles(circlesGroup, newXScale, chosenXAxis) {
+function renderXCircles(circlesGroup, newXScale, chosenXAxis, r) {
 
     circlesGroup.transition()
       .duration(1000)
-      .attr("cx", d => newXScale(d[chosenXAxis]));
-  
+      .attr("cx", d => newXScale(d[chosenXAxis]))
+      .style("fill",ChooseColor(r["correlationCoefficient"]));
     return circlesGroup;
 }
 
-function renderYCircles(circlesGroup, newYScale, chosenYAxis) {
+function renderYCircles(circlesGroup, newYScale, chosenYAxis, r) {
 
   circlesGroup.transition()
     .duration(1000)
-    .attr("cy", d => newYScale(d[chosenYAxis]));
+    .attr("cy", d => newYScale(d[chosenYAxis]))
+    .style("fill",ChooseColor(r["correlationCoefficient"]));
 
   return circlesGroup;
 }
@@ -105,6 +106,46 @@ function renderYCircleText(textCircles, newYScale, chosenYAxis) {
 function precise(x) {
   return Number.parseFloat(x).toPrecision(3);
 }
+
+
+function ChooseColor(attribute){
+  if (attribute > 0.9) {
+    return "#006837"
+  }
+  else if (attribute >= 0.7){
+    return "#1a9850"
+  }
+  else if (attribute >= 0.5){
+    return "#66bd63"
+  }
+  else if (attribute >= 0.3){
+    return "#a6d96a"
+  }
+  else if (attribute >= 0){
+    return "#d9ef8b"
+  }
+  else if (attribute >= -0.3){
+    return "#fee08b"
+  }
+  else if (attribute >= -0.5){
+    return "#fdae61"
+  }
+  else if (attribute >= -0.7){
+    return "#f46d43"
+  }
+  else if (attribute >= -0.9){
+    return "#d73027"
+  }
+  else {
+    return "#a50026"
+  }
+}
+
+// var array = [-0.9, -0.7, -0.5, -0.3, 0, 0.3, 0.5, 0.7, 0.9]
+
+
+// ["#a50026","#d73027","#f46d43","#fdae61","#fee08b","#d9ef8b","#a6d96a","#66bd63","#1a9850","#006837"]
+
 /////////////////////////////////////////////////////////////////
 d3.csv("code/data/top_51_genres.csv").then(function(data, err) {
     if (err) throw err;
@@ -113,19 +154,43 @@ d3.csv("code/data/top_51_genres.csv").then(function(data, err) {
     data.forEach(function(D) {
         D.energy = +D.energy;
         D.acousticness = +D.acousticness;
+        D.duration_ms = +D.duration_ms/60000;
         D.loudness = +D.loudness;
         D.danceability = +D.danceability;
         D.instrumentalness = +D.instrumentalness;
         D.tempo = +D.tempo;
         D.liveness = +D.liveness;
         D.speechiness = +D.speechiness;
-});
+        D.valence = +D.valence;
+    });
+
+
+    var metrics = {
+      acousticness: 'metric',
+      danceability: 'metric',
+      duration_ms: 'metric',
+      energy: 'metric',
+      instrumentalness: 'metric',
+      liveness: 'metric',
+      loudness: 'metric',
+      speechiness: 'metric',
+      tempo: 'metric',
+      valence: 'metric',
+      };
+
+    var stats = new Statistics(data, metrics);
+
+    r = stats.correlationCoefficient(chosenXAxis, chosenYAxis);
+
+    // console.log(r['correlationCoefficient'])
+    CoefficientLabel = xlabelsGroup
+    // correlationCoefficient.text("Correlation Coefficient: " + `${precise(r["correlationCoefficient"])}`)
 
     var xLinearScale = xScale(data, chosenXAxis);
   
     // Create y 
     var yLinearScale = yScale(data, chosenYAxis);
-  
+      
     // Create initial axis functions
     var bottomAxis = d3.axisBottom(xLinearScale);
     var leftAxis = d3.axisLeft(yLinearScale);
@@ -148,7 +213,8 @@ d3.csv("code/data/top_51_genres.csv").then(function(data, err) {
     .append("circle")
     .attr("cx", d => xLinearScale(d[chosenXAxis]))
     .attr("cy", d => yLinearScale(d[chosenYAxis]))
-    .attr("r", 3)
+    .attr("r", 6)
+    .style("fill",ChooseColor(r["correlationCoefficient"]))
     .classed("stateCircle", true);
 
 
@@ -165,11 +231,17 @@ d3.csv("code/data/top_51_genres.csv").then(function(data, err) {
     var xlabelsGroup = chartGroup.append("g")
     .attr("transform", `translate(${width / 2}, ${height + 20})`);
   
-    var XLabel = xlabelsGroup.append("text")
-    .attr("x", 0)
-    .attr("y", 20)
+    // var XLabel = xlabelsGroup.append("text")
+    // .attr("x", 0)
+    // .attr("y", 20)
+    // .classed("active", true)
+    // .text("Choose one factor you want to conpare :");
+
+    var  CoefficientLabel = xlabelsGroup.append("text")
+    .attr("x", 50)
+    .attr("y", 30)
     .classed("active", true)
-    .text("Choose one factor you want to conpare :");
+    .text("Correlation Coefficient: "+ `${precise(r["correlationCoefficient"])}`);
 
     //////////////////////////////////////////////////////////////
     
@@ -177,24 +249,53 @@ d3.csv("code/data/top_51_genres.csv").then(function(data, err) {
       
     function updateX(){
       // chosenXAxis = value;
-      // xLinearScale = xScale(data, chosenXAxis);
+      
       // xAxis = renderXAxes(xLinearScale, xAxis);
       
       var dropdownMenu = d3.select("#Xselect");
       chosenXAxis = dropdownMenu.property("value");
+      xLinearScale = xScale(data, chosenXAxis);
+      xAxis = renderXAxes(xLinearScale, xAxis)
+      
+      // console.log(chosenXAxis)
+      // console.log(chosenYAxis)
+      r = stats.correlationCoefficient(chosenXAxis, chosenYAxis);
 
-      circlesGroup = renderXCircles(circlesGroup, xLinearScale, chosenXAxis);
+      circlesGroup = renderXCircles(circlesGroup, xLinearScale, chosenXAxis, r);
       textCircles = renderXCircleText(textCircles, xLinearScale, chosenXAxis);
-      updateX(circlesGroup, textCircles, chosenXAxis)
+      
+      
+      // console.log("hello from update")
+      // console.log(data[chosenXAxis])
+      // console.log(xLinearScale)
+
+
+
+     CoefficientLabel.text("Correlation Coefficient: " + `${precise(r["correlationCoefficient"])}`);
+
     }
 
-
+    // updateX(circlesGroup, textCircles, chosenXAxis)
 
     d3.selectAll("#Yselect").on("change", updateY)
 
     function updateY(){
       var dropdownMenu = d3.select("#Yselect");
+      
       chosenYAxis = dropdownMenu.property("value");
+      yLinearScale = yScale(data, chosenYAxis);
+      yAxis = renderYAxes(yLinearScale, yAxis)
+
+      r = stats.correlationCoefficient(chosenXAxis, chosenYAxis);
+      circlesGroup = renderYCircles(circlesGroup, yLinearScale, chosenYAxis, r);
+      textCircles = renderYCircleText(textCircles, yLinearScale, chosenYAxis);
+
+      
+      
+      
+      
+      CoefficientLabel.text("Correlation Coefficient: " + `${precise(r["correlationCoefficient"])}`);
+
     }
 
 
