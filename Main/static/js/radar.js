@@ -237,6 +237,7 @@ function runEnter1() {
       theta: ['Acousticness','Danceability','Energy', 'Instrumentalness', 'Liveness', 'Speechiness', 'Valence', 'Loudness', 'Acousticness'],
       fill: 'toself',
       fillOpacity: 0.02,
+      name: filteredData1[0].artists,
       line: {
         color: 'red'
       }
@@ -255,7 +256,7 @@ function runEnter1() {
           range: [0, 1]
         }
       },
-      showlegend: false
+      showlegend: true
     }
     
     Plotly.newPlot("radar", data, layout)
@@ -353,6 +354,7 @@ function runEnter2() {
       theta: ['Acousticness','Danceability','Energy', 'Instrumentalness', 'Liveness', 'Speechiness', 'Valence', 'Loudness', 'Acousticness'],
       fill: 'toself',
       fillOpacity: 0.02, 
+      name: filteredData2[0].artists,
       line: {
         color: 'blue'
       }
@@ -371,7 +373,7 @@ function runEnter2() {
           range: [0, 1]
         }
       },
-      showlegend: false
+      showlegend: true
     }
     
     Plotly.newPlot("radar", data, layout)
