@@ -188,11 +188,11 @@ function precise(x) {
 
 
 
-url = "../../Resources/archive/data_by_year.csv"
-// url ="https://zmyd1nzqug.execute-api.us-west-1.amazonaws.com/dev/api/v1.0/data_by_year"
+// url = "../../Resources/archive/data_by_year.csv"
+url ="https://zmyd1nzqug.execute-api.us-west-1.amazonaws.com/dev/api/v1.0/data_by_year"
 
 
-d3.csv(url).then(function(yrData, err) {
+d3.json(url).then(function(yrData, err) {
   if (err) throw err;
 
   yearData = yrData

@@ -11,8 +11,20 @@
     border-radius: .3rem;  
     }
 
-.graph {
+/* .graph {
     margin-bottom: 4px;
     width: 300px;
     height: 250px;
+} */
+
+.carousel {
+    width: 500px;
+    height: 400px;
 }
+/* .img-fluid {
+    padding: 4rem;
+    width: 300px;
+    height: 250px;
+} */
+
+  
