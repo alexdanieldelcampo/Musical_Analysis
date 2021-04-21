@@ -215,6 +215,7 @@ d3.csv("code/data/top_51_genres.csv").then(function(data, err) {
     .attr("cy", d => yLinearScale(d[chosenYAxis]))
     .attr("r", 6)
     .style("fill",ChooseColor(r["correlationCoefficient"]))
+    .style("stroke", "black")
     .classed("stateCircle", true);
 
 

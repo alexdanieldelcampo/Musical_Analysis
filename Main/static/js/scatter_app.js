@@ -265,6 +265,8 @@ d3.json(url).then(function(data, err) {
     .attr("cy", d => yLinearScale(d[chosenYAxis]))
     .attr("r", 7)
     .style("fill", ChooseColor(r["correlationCoefficient"]))
+    .style("stroke","black")
+    .style("opacity", 0.8)
     .classed("stateCircle", true);
 
 
