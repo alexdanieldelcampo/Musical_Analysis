@@ -148,8 +148,7 @@ function ChooseColor(attribute){
 
 
 function updateToolTip(chosenXAxis, chosenYAxis, circlesGroup) {
-  var xxlabel;
-  var yylabel;
+  
   // if (chosenXAxis === “poverty”) {
   //   xlabel = “Poverty (%)“;
   // }
@@ -170,10 +169,10 @@ function updateToolTip(chosenXAxis, chosenYAxis, circlesGroup) {
   // }
   var toolTip = d3.tip()
   .attr("class", "tooltip")
-  .offset([45, -30])
+  .offset([80, -60])
   .html(function(d) {
     // return (`${d.genres}<br>${xxlabel}: ${d[chosenXAxis]}<br>${yylabel}: ${d[chosenYAxis]}`);
-    return (`${d.genres}`);
+    return (`<strong>${d.genres}</strong><br>${chosenYAxis}: ${precise(d[chosenYAxis])}<br>${chosenXAxis}: ${precise(d[chosenXAxis])}`);
   });
   circlesGroup.call(toolTip);
   circlesGroup.on("mouseover", function(data) {
@@ -183,14 +182,8 @@ function updateToolTip(chosenXAxis, chosenYAxis, circlesGroup) {
     .on("mouseout", function(data, index) {
       toolTip.hide(data);
     });
-  // This is so the tooltip does not go away when the cursor hits the State text in circle
-    abbrGroup.on("mouseover", function(data) {
-      toolTip.show(data, this)
-    })
-      // onmouseout event
-      .on("mouseout", function(data, index) {
-        toolTip.hide(data);
-      });
+  
+   
   return circlesGroup;
 }
 
@@ -269,6 +262,8 @@ d3.json(url).then(function(data, err) {
     .style("opacity", 0.85)
     .classed("stateCircle", true);
 
+     // Made to initiate tooltip when page first loads
+     textCircles = updateToolTip(chosenXAxis, chosenYAxis, circlesGroup);
 
     // var textCircles = chartGroup.append("g")
     // .selectAll("text")
@@ -295,6 +290,7 @@ d3.json(url).then(function(data, err) {
     .classed("active", true)
     .text("Correlation Coefficient: "+ `${precise(r["correlationCoefficient"])}`);
 
+   
     //////////////////////////////////////////////////////////////
     
     d3.selectAll("#Xselect").on("change", updateX)
