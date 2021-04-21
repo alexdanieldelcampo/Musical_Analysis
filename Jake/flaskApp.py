@@ -1,6 +1,4 @@
-import numpy as np
-import pandas as pd
-import datetime as dt
+from flask_cors import CORS
 import json
 from flask import Flask, jsonify
 
@@ -16,6 +14,7 @@ engine = create_engine("sqlite:///musicData.sqlite")
 
 # Setup Flask
 app = Flask(__name__)
+CORS(app)
 
 @app.route("/")
 def homepage():
@@ -27,7 +26,7 @@ def homepage():
     f"/api/v1.0/data_by_year <br/>"
     f"/api/v1.0/data_by_year_o <br/>"
     f"/api/v1.0/data_by_artist <br/>"
-    f"/api/v1.0/data_by_artist_clean <br/>"
+    f"/api/v1.0/data_by_artist_clean/&lt;artist&gt; <br/>"
     f"/api/v1.0/data_by_artist_o <br/>"
     f"/api/v1.0/data_by_genres <br/>"
     f"/api/v1.0/data_by_genres_o <br/>"
@@ -98,10 +97,12 @@ def data_by_artist():
 
   return dataByArtistJSON
 
-@app.route("/api/v1.0/data_by_artist_clean")
-def data_by_artist_clean():
+@app.route("/api/v1.0/data_by_artist_clean/<artist>")
+def data_by_artist_clean(artist):
+  queryArtist = artist
   session=Session(bind=engine)  
-  dataByArtistClean = engine.execute("SELECT * from Clean_Artists")
+  dataByArtistClean = engine.execute(f'SELECT * from Clean_Artists \
+    WHERE artists = "{queryArtist}"')
   session.close()
   dataByArtistCleanJSON = json.dumps([dict(r) for r in dataByArtistClean])
 
