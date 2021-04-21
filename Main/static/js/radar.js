@@ -117,9 +117,9 @@ function init() {
   var artDiv = artist_info.append("div")
   artDiv.text(`Popularity: ${filteredData1[0].popularity}`)
   var artDiv = artist_info.append("div")
-  artDiv.text(`Avg Song Duration: ${filteredData1[0].duration_min}`)
+  artDiv.text(`Avg Song Duration: ${filteredData1[0].duration_min} min`)
   var artDiv = artist_info.append("div")
-  artDiv.text(`Avg Tempo: ${filteredData1[0].tempo}`)
+  artDiv.text(`Avg Tempo: ${filteredData1[0].tempo} bpm`)
   console.log(filteredData1[0])
 
   filteredData2 = artist.filter(d => d.artists == "Halsey");
@@ -140,9 +140,9 @@ function init() {
     var artDiv = artist_info.append("div")
     artDiv.text(`Popularity: ${filteredData2[0].popularity}`)
     var artDiv = artist_info.append("div")
-    artDiv.text(`Avg Song Duration: ${filteredData2[0].duration_min}`)
+    artDiv.text(`Avg Song Duration: ${filteredData2[0].duration_min} min`)
     var artDiv = artist_info.append("div")
-    artDiv.text(`Avg Tempo: ${filteredData2[0].tempo}`)
+    artDiv.text(`Avg Tempo: ${filteredData2[0].tempo} bpm`)
     console.log(filteredData2[0])
 
   
@@ -219,9 +219,9 @@ function runEnter1() {
   var artDiv = artist_info.append("div")
   artDiv.text(`Popularity: ${filteredData1[0].popularity}`)
   var artDiv = artist_info.append("div")
-  artDiv.text(`Avg Song Duration: ${filteredData1[0].duration_min}`)
+  artDiv.text(`Avg Song Duration: ${filteredData1[0].duration_min} min`)
   var artDiv = artist_info.append("div")
-  artDiv.text(`Avg Tempo: ${filteredData1[0].tempo}`)
+  artDiv.text(`Avg Tempo: ${filteredData1[0].tempo} bpm`)
   console.log(filteredData1[0])
 
   if (inputValue2 == undefined){
@@ -334,9 +334,9 @@ function runEnter2() {
   var artDiv = artist_info.append("div")
   artDiv.text(`Popularity: ${filteredData2[0].popularity}`)
   var artDiv = artist_info.append("div")
-  artDiv.text(`Avg Song Duration: ${filteredData2[0].duration_min}`)
+  artDiv.text(`Avg Song Duration: ${filteredData2[0].duration_min} min`)
   var artDiv = artist_info.append("div")
-  artDiv.text(`Avg Tempo: ${filteredData2[0].tempo}`)
+  artDiv.text(`Avg Tempo: ${filteredData2[0].tempo} bpm`)
   console.log(filteredData2[0])
   
   // Select the input element and get the raw HTML node
