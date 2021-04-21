@@ -189,6 +189,8 @@ function precise(x) {
 
 
 url = "../../Resources/archive/data_by_year.csv"
+// url ="https://zmyd1nzqug.execute-api.us-west-1.amazonaws.com/dev/api/v1.0/data_by_year"
+
 
 d3.csv(url).then(function(yrData, err) {
   if (err) throw err;
@@ -226,7 +228,7 @@ d3.csv(url).then(function(yrData, err) {
     data.year = parseTime(data.year).getFullYear()
     data.acousticness = +data.acousticness;
     data.danceability = +data.danceability;
-    data.duration_ms = +data.duration_ms
+    data.duration_ms = +data.duration_ms/60000
     data.energy = +data.energy
     data.instrumentalness = +data.instrumentalness
     data.liveness = +data.liveness
