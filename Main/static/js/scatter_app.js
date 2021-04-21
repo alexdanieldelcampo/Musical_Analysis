@@ -266,7 +266,7 @@ d3.json(url).then(function(data, err) {
     .attr("r", 7)
     .style("fill", ChooseColor(r["correlationCoefficient"]))
     .style("stroke","black")
-    .style("opacity", 0.8)
+    .style("opacity", 0.85)
     .classed("stateCircle", true);
 
 
@@ -290,7 +290,7 @@ d3.json(url).then(function(data, err) {
     // .text("Choose one factor you want to conpare :");
 
     var  CoefficientLabel = xlabelsGroup.append("text")
-    .attr("x", 50)
+    .attr("x", -250)
     .attr("y", 30)
     .classed("active", true)
     .text("Correlation Coefficient: "+ `${precise(r["correlationCoefficient"])}`);

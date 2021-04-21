@@ -3,14 +3,14 @@
     font-weight: bold;
     fill: rgb(14, 13, 13);
     transition: fill 0.3s ease-out;
-    text-anchor: middle;
+    text-anchor: left;
   }
   
   .inactive {
     font-weight: lighter;
     fill: #c9c9c9;
     transition: fill 0.3s ease-out;
-    text-anchor: middle;
+    text-anchor: left;
   }
   
   .inactive:hover {
