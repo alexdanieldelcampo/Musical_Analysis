@@ -1,3 +1,4 @@
+
 // BY PLOTLY
 var artist_data = "../../Resources/Clean_Artists.csv"
 
@@ -16,6 +17,15 @@ var filteredData2
 var inputValue2
 var inputElement2
 
+inputElement1 = d3.select("#artist1-name");
+
+  // Get the value property of the input element
+inputValue1 = inputElement1.property("value");
+
+inputElement2 = d3.select("#artist2-name");
+
+  // Get the value property of the input element
+inputValue2 = inputElement2.property("value");
 // runEnter1()
 // init();
 
@@ -27,47 +37,86 @@ form2.on("submit",runEnter2);
 
 button2.on("click", runEnter2);
 
-// form.on("submit",runEnter1);
+var base_url = "https://zmyd1nzqug.execute-api.us-west-1.amazonaws.com/dev/api/v1.0/data_by_artist_clean/"
 
-// button.on("click", runEnter1);
+// init()
+var artistDefault1 = []
+var artistDefault2 = []
+  d3.json(`${base_url}${inputValue1}`).then(function(data){
+    console.log(data)
 
-// var justinData = artist.filter(d => d.artists == "Justin Bieber")
-//   data = [{
-//     type: 'scatterpolar',
-//     r: [1, justinData[0].danceability, justinData[0].energy, justinData[0].instrumentalness, justinData[0].liveness, justinData[0].speechiness, justinData[0].valence, justinData[0].acousticness],
-//     theta: ['Acousticness','Danceability','Energy', 'Instrumentalness', 'Liveness', 'Speechiness', 'Valence', 'Acousticness'],
-//     fill: 'toself'
-//   }]
+    data.forEach(function(data){
+      data.acousticness = +data.acousticness
+      data.danceability = +data.danceability
+      data.energy = +data.energy
+      data.instrumentalness = +data.instrumentalness
+      data.liveness = +data.liveness
+      data.loudness = +data.loudness
+      data.speechiness = +data.speechiness
+      data.valence = +data.valence
+      data.popularity = +data.popularity
+      
+    })
+    artistDefault1 = data
+    d3.json(`${base_url}${inputValue2}`).then(function(data){
+      console.log(data)
   
-//   layout = {
-//     polar: {
-//       radialaxis: {
-//         visible: true,
-//         range: [0, 1]
-//       }
-//     },
-//     showlegend: false
-//   }
-
-var artist = []
-d3.csv(artist_data).then(function(data){
-  console.log(data)
-
-  data.forEach(function(data){
-    data.acousticness = +data.acousticness
-    data.danceability = +data.danceability
-    data.energy = +data.energy
-    data.instrumentalness = +data.instrumentalness
-    data.liveness = +data.liveness
-    data.loudness = +data.loudness
-    data.speechiness = +data.speechiness
-    data.valence = +data.valence
-    data.popularity = +data.popularity
-    
+      data.forEach(function(data){
+        data.acousticness = +data.acousticness
+        data.danceability = +data.danceability
+        data.energy = +data.energy
+        data.instrumentalness = +data.instrumentalness
+        data.liveness = +data.liveness
+        data.loudness = +data.loudness
+        data.speechiness = +data.speechiness
+        data.valence = +data.valence
+        data.popularity = +data.popularity
+        
+      })
+      artistDefault2 = data
+      init()
+    })
+    // init()
   })
-  artist = data
-  init()
-})
+  
+  // d3.json(`${base_url}Halsey`).then(function(data){
+  //   console.log(data)
+
+  //   data.forEach(function(data){
+  //     data.acousticness = +data.acousticness
+  //     data.danceability = +data.danceability
+  //     data.energy = +data.energy
+  //     data.instrumentalness = +data.instrumentalness
+  //     data.liveness = +data.liveness
+  //     data.loudness = +data.loudness
+  //     data.speechiness = +data.speechiness
+  //     data.valence = +data.valence
+  //     data.popularity = +data.popularity
+      
+  //   })
+  //   artistDefault2 = data
+  //   init()
+  // })
+// init()
+// var artist = []
+// d3.csv(artist_data).then(function(data){
+//   console.log(data)
+
+//   data.forEach(function(data){
+//     data.acousticness = +data.acousticness
+//     data.danceability = +data.danceability
+//     data.energy = +data.energy
+//     data.instrumentalness = +data.instrumentalness
+//     data.liveness = +data.liveness
+//     data.loudness = +data.loudness
+//     data.speechiness = +data.speechiness
+//     data.valence = +data.valence
+//     data.popularity = +data.popularity
+    
+//   })
+//   artist = data
+//   init()
+// })
 
 // var artist = d3.csv(artist_data).then(function(data){
 //   console.log(data)
@@ -99,8 +148,14 @@ function init() {
 
   // Get the value property of the input element
   // inputValue1 = inputElement1.property("value");
-  filteredData1 = artist.filter(d => d.artists == "Joe Hisaishi");
-  console.log(filteredData1[0].valence)
+  
+
+  
+  console.log(artistDefault1)
+
+  filteredData1 = artistDefault1
+  
+  // console.log(filteredData1[0].valence)
 
   var name1 = d3.selectAll("#name1")
   name1.html("");
@@ -121,9 +176,9 @@ function init() {
   artDiv.text(`Avg Tempo: ${filteredData1[0].tempo} bpm`)
   console.log(filteredData1[0])
 
-  filteredData2 = artist.filter(d => d.artists == "Halsey");
+  filteredData2 = artistDefault2
   
-    console.log(filteredData2)
+    // console.log(filteredData2)
   
     var name2 = d3.selectAll("#name2")
     name2.html("");
