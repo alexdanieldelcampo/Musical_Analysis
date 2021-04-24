@@ -5,7 +5,7 @@ The purpose of this project is to analyze the different attributes of songs and 
 The project is built as an interactive website with D3.js, Plotly.js, and Bootrap.js.
 
 Website hosted here:
-[Musical Attribute Analysis](http://zappa-75xn5ti4y.s3-website-us-west-1.amazonaws.com/index.html)
+[Musical Attribute Analysis](https://d23xnrnj0wf2a8.cloudfront.net/)
 
 ## Music Attributes
 
