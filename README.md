@@ -84,7 +84,7 @@ While we've spent a lot of time putting together these visualizations and observ
 - It is difficult to know if some of the correlations we are seeing in the data are due to bias or unknown methods that could influence the way Spotify assigns a value to these attributes.  Many of the attributes have a scalar value from 0 to 1; additional analysis is needed to see if there is any nuance in these values.
 - Our scope of data exploration may limit our observations.  As we dive deeper into this dataset, there are more questions we'd like to look at.
   - Does the time period that an artist is active have an impact on their attribute values?
-  - Does Spotify's alorithm capture changes in an artist's style or tone if they are active over a long period of time?
+  - Does Spotify's algorithm capture changes in an artist's style or tone if they are active over a long period of time?
   - Do songs in similar keys have similar valence/tempo/energy etc.?
 - Last but not least, correlation is not causation.  While many of these attributes have strong positive or negative correlations, it is difficult to conclude the cause for these relationships.  They may be due to common tendencies in music for different time periods, genres, or artists, OR there could be some bias in the dataset.
 
