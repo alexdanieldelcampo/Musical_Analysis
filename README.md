@@ -27,7 +27,7 @@ Source/Further Reading: [theverge.com](https://www.theverge.com/tldr/2018/2/5/16
 
 ## Data Source
 
-This project is based on a Spotify dataset available on Kaggle.com
+This project is based on a Spotify dataset available on Kaggle.com:
 
 [Spotify Dataset 1922-2021](https://www.kaggle.com/yamaerenay/spotify-dataset-19212020-160k-tracks)
 
@@ -42,7 +42,7 @@ The main API routes include:
   - Returns averaged attributes for tracks by genre.  A total of 51 rows of data.  List of top 51 genres determined by scraping popular music genres from Google.
 - Data by Artist - [/api/v1.0/data_by_artist_clean/&lt;artist&gt;](https://zmyd1nzqug.execute-api.us-west-1.amazonaws.com/dev/api/v1.0/data_by_artist_clean/The%20B-52's)
   - Returns averaged attributes for tracks for a single artist.  28,680 artists are available in the SQLite database.
-  - When adding the artist name at the end of the URL (replace "&lt;artist&gt;" with your artist of interest), please use the correct spelling, puncutation, capitalization, and spacing.  Note any accents or special characters (She's Beyoncé, not Beyonce).
+  - When adding the artist name at the end of the URL (replace "&lt;artist&gt;" with your artist of interest), please use the correct spelling, puncutation, capitalization, and spacing.  Note any accents or special characters (she's Beyoncé, not Beyonce).
 
 Full set of API routes available [here](https://zmyd1nzqug.execute-api.us-west-1.amazonaws.com/dev).  Note that not all routes are optimized for speedy returns via AWS Lambda, so there may be timeout errors.
 
@@ -77,7 +77,7 @@ Based on our visualizations, we have the following observations:
 - Valence (happiness) and instrumentalness are inversely related; the happier a song is, the less likely it is to be a primarily instrumental track.  Perhaps songs that are purely instrumental like movie scores are determined to be sadder songs by Spotify's algorithm.
 - Energy (culmination of loudness and tempo) and acousticness also exhibit an inverse relationship.  It is possible that acoustic songs tend to have lower volume and may have a slower pace, so the energy score tends to be lower based on Spotify's method for determining the energy.
 - Music trends seem to change over time, and may be influenced by historical events.  Valence (happiness) seems to dip during WWII, and dips significanly again during the Great Reccession in the late 2000s.
-- Similar artists have similar shapes on the radar chart.  Try plotting Fall Out Boy vs Panic! At The Disco or Wolfgange Amadeus Mozart and John Williams.  
+- Similar artists have similar shapes on the radar chart.  Try plotting Fall Out Boy vs Panic! At The Disco or Wolfgang Amadeus Mozart and John Williams.  
 
 ## Limitations
 While we've spent a lot of time putting together these visualizations and observations, there are still opportunities to improve:
