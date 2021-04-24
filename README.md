@@ -38,7 +38,7 @@ After data cleaning, the Spotify music data was compiled into a SQLite database.
 The main API routes include:
 - Data by Year - [/api/v1.0/data_by_year](https://zmyd1nzqug.execute-api.us-west-1.amazonaws.com/dev/api/v1.0/data_by_year)
   - Returns averaged attributes for tracks by year.  A total of 102 rows of data.
-- Data by Artist - [/api/v1.0/top_51_genres](https://zmyd1nzqug.execute-api.us-west-1.amazonaws.com/dev/api/v1.0/top_51_genres)
+- Data by Genre - [/api/v1.0/top_51_genres](https://zmyd1nzqug.execute-api.us-west-1.amazonaws.com/dev/api/v1.0/top_51_genres)
   - Returns averaged attributes for tracks by genre.  A total of 51 rows of data.  List of top 51 genres determined by scraping popular music genres from Google.
 - Data by Artist - [/api/v1.0/data_by_artist_clean/&lt;artist&gt;](https://zmyd1nzqug.execute-api.us-west-1.amazonaws.com/dev/api/v1.0/data_by_artist_clean/The%20B-52's)
   - Returns averaged attributes for tracks for a single artist.  28,680 artists are available in the SQLite database.
